@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800;900&family=Tiro+Gurmukhi&display=swap');
+
+*{
+    margin : 0; 
+    padding  : 0; 
+    font-family: 'Noto Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-family: 'Tiro Gurmukhi', serif;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+
+header{
+    position: fixed;
+    top: 0;
+    height: 15vh;
+    width: 100%;
+    background-color: black;
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+header title{
+    color: white;
+    font-size: 20px;
+    
+}
+
+p {
+    font-weight: 800;
+}

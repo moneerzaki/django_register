@@ -1,0 +1,18 @@
+{% extends 'register/base.html' %}
+
+<!-- {% block style %} 
+    <link rel="stylesheet" href="styles/registeration.css">
+{% endblock %} -->
+    
+
+{% block headertitle%} Moneer's registeration page {% endblock %}
+
+{% block content %}
+
+    <p style="font-weight: bolder;"> kindly fill in your information to be registered as a new member </p>
+    <form method="POST" id="registeration_form">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit">Register</button>
+    </form>
+{% endblock %}
