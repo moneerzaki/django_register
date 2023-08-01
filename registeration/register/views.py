@@ -16,3 +16,7 @@ def reg(response):
     else:
         form = UserCreationForm()
     return render(response, "register/registeration_page.html", {"form":form})
+
+
+def home(response): 
+    return render(response, "register/home_page.html", {})
