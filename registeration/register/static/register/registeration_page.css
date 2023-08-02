@@ -17,6 +17,7 @@ header{
     height: 15vh;
     width: 100%;
     background-color: black;
+    color: white;
     
     display: flex;
     flex-direction: row;
@@ -29,6 +30,14 @@ header title{
     color: white;
     font-size: 20px;
     
+}
+
+
+#page_content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 p {

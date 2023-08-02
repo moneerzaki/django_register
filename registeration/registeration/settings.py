@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from django.urls import reverse_lazy
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +28,8 @@ SECRET_KEY = 'django-insecure-$2^$u7f@q-aetuc$r$l_$h66i83p0u6a_5s))4-z7o14_)7f!3
 DEBUG = True
 
 ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['http://127.0.0.1:8000/']
+# ALLOWED_HOSTS = ['moneerzaki.pythonanywhere.com']
 
 
 # Application definition
@@ -39,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # "crispy_forms",
     'register.apps.RegisterConfig',
+    'project1.apps.Project1Config',
 ]
 
 MIDDLEWARE = [
@@ -119,9 +124,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# CRISPY_TEMPLATE_PACK="bootstrap4"
 
-LOGIN_REDIRECT_URL = "/"
+
+
+# LOGIN_REDIRECT_URL = reverse_lazy('project1:homepage')
+LOGIN_REDIRECT_URL = '../project1/homepage/'
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Default primary key field type
