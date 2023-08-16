@@ -1,0 +1,117 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- bootstrap css style -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- datatables CSS -->
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"> -->
+    <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-1.13.6/b-2.4.1/b-html5-2.4.1/b-print-2.4.1/datatables.min.css" rel="stylesheet">
+    
+    <!-- datatables Buttons CSS -->
+    <link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet">
+
+
+    <!-- font awesome  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'project2/style.css' %}">
+    <title> {% block title %} {% endblock %} </title>
+</head>
+<body>
+    <header>
+        {% if user.is_authenticated %}
+            <h3>    
+                <a href="{% url 'logout' %}"> logout </a>
+            </h3>
+        {% endif %}
+
+        {% block header %} {% endblock %}
+    </header>
+    <hr> 
+
+    {% block content %} {% endblock %} 
+
+    <!-- bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <!-- datatables JS -->
+    <!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-1.13.6/b-2.4.1/b-html5-2.4.1/b-print-2.4.1/datatables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable with options
+            var dataTable = $("#table_id").DataTable({
+                paging: false,
+                pageLength: 10,
+                lengthChange: true,
+                autoWidth: true,
+                searching: true,
+                bInfo: true,
+                bSort: true,
+                // dom: '<"d-flex justify-content-between"lf>tip',
+                dom: '<"d-flex justify-content-between"lf>tipB',
+                scrollX: true,  // Enable horizontal scrolling
+
+                buttons:[
+                    {
+                        extend: 'copy',
+                        text: '<i class="fas fa-clone"></i>',
+                        className: 'btn btn-secondary',
+                        titleAttr: 'Copy', 
+                        // selected columns
+                        exportOptions: {columns: [2,5] },
+
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fas fa-print"></i>',
+                        className: 'btn btn-secondary',
+                        titleAttr: 'Print', 
+                        // selected columns
+                        exportOptions: {columns: [2,4] },
+                        // tableHeaders: {alignment: center},
+                        // customize: function(doc) {doc.style.tableHeaders.alignment = 'center';}
+                    },
+                    {
+                        extend: 'pdf',
+                        text: '<i class="fas fa-pdf"></i>',
+                        className: 'btn btn-secondary',
+                        titleAttr: 'PDF', 
+                        // selected columns
+                        exportOptions: {columns: [2,4] },
+                        // tableHeaders: {alignment: center},
+                        // customize: function(doc) {doc.style.tableHeaders.alignment = 'center';}
+                    }
+                ]
+            });
+    
+            // Scroll the table all the way to the right
+            var dataTableScrollBody = $(".dataTables_scrollBody");
+            dataTableScrollBody.scrollLeft(dataTableScrollBody.width() * 10);
+    
+            // Initialize DataTable for row selection
+            const table = new DataTable('#table_id');
+            // Handle row selection on click
+            table.on('click', 'tbody tr', function(e) {
+                e.currentTarget.classList.toggle('selected');
+            });
+            // Handle button click to display selected rows
+            document.querySelector('#button').addEventListener('click', function() {
+                alert(table.rows('.selected').data().length + ' row(s) selected');
+            });
+        });
+    </script>
+    
+    
+
+</body>
+</html>

@@ -6,11 +6,26 @@
     <title> project 1 </title>
 </head>
 <body>
-    <header>
-        Here is the content of the page
-    </header>
-    <p>
-        kindly, find the content below
-    </p>
+    {% if user.is_authenticated %}
+        <header>
+            Here is the content of the page
+                <h4>    
+                    <a href="{% url 'logout' %}"> logout </a>
+                </h4>
+            
+        </header>
+        <p>
+            kindly, find the content below
+        </p>
+        {% for post in posts %}
+            <h1>    {{ post.title }}    </h1>
+            <p>     by   {{post.author}} on {{ post.date_posted }}   </p>
+            <p>     {{ post.content }}  </p>
+        {% endfor %}
+    {% else %}
+        <h1> You haven't logged in to veiw the content of this page. </h1>
+        <br> 
+        <h2> Try going to the reigstration page. <a href="/"> here </a> </h2>
+    {% endif %}
 </body>
 </html>

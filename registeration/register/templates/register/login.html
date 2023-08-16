@@ -1,0 +1,18 @@
+{% extends 'register/base.html'%}
+
+{% block headertitle %} login here {% endblock %}
+
+
+{% block content %} 
+
+    <form method="post" class="form-group">
+        {% csrf_token %}
+        {{form.as_div}}
+        <button type="submit" class ="btn btn-success">Login</button>
+        <!-- <p>Don't have an account? Create one <a href="/register"> here </a></p> -->
+    </form>
+
+    <br> 
+    <br>
+    <a href="../"> home page </a>
+{% endblock %}

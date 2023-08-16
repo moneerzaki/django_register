@@ -18,8 +18,22 @@
         <h1>
             {% block headertitle%} {% endblock %}
         </h1>
+        
+        {% if user.is_authenticated %}
+            <h4>    
+                <a href="{% url 'logout' %}"> logout </a>
+            </h4>
+        {% endif %}
+        
     </header>
     <div id="page_content">
+
+        {% if messages %}
+            {% for message in messages %}
+                <div> {{message}} </div>
+            {% endfor %}    
+        {% endif %}
+
         {% block content %}
         {% endblock %}
     </div>

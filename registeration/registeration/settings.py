@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     # "crispy_forms",
     'register.apps.RegisterConfig',
     'project1.apps.Project1Config',
+    'project2.apps.Project2Config',
+
 ]
 
 MIDDLEWARE = [
@@ -126,12 +128,14 @@ STATIC_URL = 'static/'
 
 
 
-
-# LOGIN_REDIRECT_URL = reverse_lazy('project1:homepage')
-LOGIN_REDIRECT_URL = '../project1/homepage/'
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+# LOGIN_REDIRECT_URL = reverse_lazy('project1:homepage')
+LOGIN_REDIRECT_URL = '../project2/ebtda2y/'
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+LOGIN_URL =  "login"

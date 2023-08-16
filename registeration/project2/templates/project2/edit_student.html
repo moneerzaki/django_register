@@ -1,0 +1,24 @@
+{% extends 'project2/base.html' %}
+
+{% block title %} editing page {% endblock %}
+
+
+{% block header %} 
+    {% if user.is_authenticated and user.username == "moneerzaki" %}
+            <div> back to ebtda2y info <a href="{% url 'project2:info' %}"> here </a></div>
+    {% endif %}
+{% endblock %}
+
+
+{% block content %} 
+    <!-- {{ student }} -->
+    This is the content of the page. 
+    <h2>Edit Student</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ studentForm.as_p }}
+        <a href="{% url 'project2:info' %}"> <button type="submit">Save edits</button> </a>
+    </form>
+
+{% endblock %}
