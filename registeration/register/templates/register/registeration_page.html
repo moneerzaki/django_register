@@ -9,14 +9,22 @@
 
 {% block content %}
 
-    <p style="font-weight: bolder;"> kindly fill in your information to be registered as a new member </p>
-    <form method="POST" id="registeration_form">
-        {% csrf_token %}
-        {{form}}
-        <button type="submit">Register</button>
-    </form>
+    <div class="container vh-50">
+        <p class="fw-bold"> kindly fill in your information to be registered as a new member </p>
+        <div class="container border border-3">
+            <form class="container border-black border-dark p-3" method="POST" id="registeration_form">
+                {% csrf_token %}
+                {{form}}
+                <button class="btn btn-secondary" type="submit">Register</button>
+            </form>
+        </div>
 
-    <br>
-    <br> 
-    <a href="../"> home page </a>
+        <br>
+        <br> 
+
+        <div class="container row justify-content-start vw-100 border border-3 p-3">
+            <p class="col-3 text-center align-items-center"> go to the homepage? </p>
+            <a class="col-4 btn btn-outline-primary align-self-end fw-bolder" href="../"> home page </a>
+        </div>
+    </div>
 {% endblock %}

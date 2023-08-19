@@ -7,10 +7,26 @@ from .forms import StudentForm
 from django.contrib import messages
 from django.forms.utils import ErrorList
 
+# those ones for user_username authentication
+from functools import wraps
+from django.shortcuts import HttpResponse
+def specific_username_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        # Get the authenticated user
+        user = request.user
+
+        # Check if the user's username is the desired one
+        if user.username == 'khadem':
+            return view_func(request, *args, **kwargs)
+        else:
+            return HttpResponse("You are not authorized to access this view.")
+    return login_required(_wrapped_view)
+
 
 # Create your views here.
 
-@login_required
+@specific_username_required
 def edit_student(request, student_id):
     student = Student.objects.get(id=student_id)
     studentForm = StudentForm(request.POST or None, instance=student)
@@ -21,12 +37,12 @@ def edit_student(request, student_id):
     return render(request, "project2/edit_student.html", {"student": student, "studentForm": studentForm})
 
 
-@login_required
+@specific_username_required
 def ebtda2y(request):
     return render(request, "project2/ebtda2y.html", {})
 
 
-@login_required
+@specific_username_required
 def info(request): 
     context = {
             'students': Student.objects.all(),
@@ -38,7 +54,7 @@ def info(request):
 
 
 #with guardian info inside student class
-@login_required
+@specific_username_required
 def add_student(request):
     if request.method == 'POST':
         form = StudentForm(request.POST)

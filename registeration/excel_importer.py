@@ -69,7 +69,7 @@ def validate_datatypes(excel_data):
     for index, row in excel_data.iterrows():
         for column_name in excel_data.columns:
             if pd.isna(row[column_name]):
-                excel_data.at[index, column_name] = ''
+                excel_data.at[index, column_name] = ' '
         # Map Arabic gender values to match Django model's GENDER_CHOICES
         arabic_gender = row['gender']
         if 'ولد' in arabic_gender:
@@ -83,29 +83,31 @@ def validate_datatypes(excel_data):
         # Convert phone numbers to strings
 
         # if math.isnan(excel_data.at[index, 'phone_number']):
-        #     excel_data.at[index, 'phone_number'] = ''
-        # else:  excel_data.at[index, 'phone_number'] = '0'+str(row['phone_number'])[:-2]
-        # if math.isnan(excel_data.at[index, 'phone_number2']):
-        #     excel_data.at[index, 'phone_number2'] = ''
-        # else:  excel_data.at[index, 'phone_number2'] = '0'+str(row['phone_number2'])[:-2]
-        # if math.isnan(excel_data.at[index, 'father_phone_number1']):
-        #     excel_data.at[index, 'father_phone_number1'] = ''
-        # else:  excel_data.at[index, 'father_phone_number1'] = '0'+str(row['father_phone_number1'])[:-2]
-        # if math.isnan(excel_data.at[index, 'father_phone_number2']):
-        #     excel_data.at[index, 'father_phone_number2'] = ''
-        # else:  excel_data.at[index, 'father_phone_number2'] = '0'+str(row['father_phone_number2'])[:-2]
-        # if math.isnan(excel_data.at[index, 'mother_phone_number1']):
-        #     excel_data.at[index, 'mother_phone_number1'] = ''
-        # else:  excel_data.at[index, 'mother_phone_number1'] = '0'+str(row['mother_phone_number1'])[:-2]
-        # if math.isnan(excel_data.at[index, 'mother_phone_number2']):
-        #     excel_data.at[index, 'mother_phone_number2'] = ''
-        # else:  excel_data.at[index, 'mother_phone_number2'] = '0'+str(row['mother_phone_number2'])[:-2]
-        excel_data.at[index, 'phone_number'] = '0'+str(row['phone_number'])[:-2]
-        excel_data.at[index, 'phone_number2'] = '0'+str(row['phone_number2'])[:-2]
-        excel_data.at[index, 'father_phone_number1'] = '0'+str(row['father_phone_number1'])[:-2]
-        excel_data.at[index, 'father_phone_number2'] = '0'+str(row['father_phone_number2'])[:-2]
-        excel_data.at[index, 'mother_phone_number1'] = '0'+str(row['mother_phone_number1'])[:-2]
-        excel_data.at[index, 'mother_phone_number2'] = '0'+str(row['mother_phone_number2'])[:-2]
+        if pd.isna(excel_data.at[index, 'phone_number']) or str(excel_data.at[index, 'phone_number']).strip() == '':
+            excel_data.at[index, 'phone_number'] = ' '
+        else:  excel_data.at[index, 'phone_number'] = '0'+str(row['phone_number'])[:-2]
+        if pd.isna(excel_data.at[index, 'phone_number2']) or str(excel_data.at[index, 'phone_number2']).strip() == '':
+            excel_data.at[index, 'phone_number2'] = ''
+        else:  excel_data.at[index, 'phone_number2'] = '0'+str(row['phone_number2'])[:-2]
+        if pd.isna(excel_data.at[index, 'father_phone_number1']) or str(excel_data.at[index, 'father_phone_number1']).strip() == '':
+            excel_data.at[index, 'father_phone_number1'] = ''
+        else:  excel_data.at[index, 'father_phone_number1'] = '0'+str(row['father_phone_number1'])[:-2]
+        if pd.isna(excel_data.at[index, 'father_phone_number2']) or str(excel_data.at[index, 'father_phone_number2']).strip() == '':
+            excel_data.at[index, 'father_phone_number2'] = ''
+        else:  excel_data.at[index, 'father_phone_number2'] = '0'+str(row['father_phone_number2'])[:-2]
+        if pd.isna(excel_data.at[index, 'mother_phone_number1']) or str(excel_data.at[index, 'mother_phone_number1']).strip() == '':
+            excel_data.at[index, 'mother_phone_number1'] = ''
+        else:  excel_data.at[index, 'mother_phone_number1'] = '0'+str(row['mother_phone_number1'])[:-2]
+        if pd.isna(excel_data.at[index, 'mother_phone_number2']) or str(excel_data.at[index, 'mother_phone_number2']).strip() == '':
+            excel_data.at[index, 'mother_phone_number2'] = ''
+        else:  excel_data.at[index, 'mother_phone_number2'] = '0'+str(row['mother_phone_number2'])[:-2]
+
+        # excel_data.at[index, 'phone_number'] = '0'+str(row['phone_number'])[:-2]
+        # excel_data.at[index, 'phone_number2'] = str(row['phone_number2'])
+        # excel_data.at[index, 'father_phone_number1'] = str(row['father_phone_number1'])
+        # excel_data.at[index, 'father_phone_number2'] = str(row['father_phone_number2'])
+        # excel_data.at[index, 'mother_phone_number1'] = str(row['mother_phone_number1'])
+        # excel_data.at[index, 'mother_phone_number2'] = str(row['mother_phone_number2'])
 
         # Convert boolean fields to boolean values
         excel_data.at[index, 'father_alive'] = row['father_alive'] == 'نعم'

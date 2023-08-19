@@ -1,86 +1,30 @@
-h4{
-    text-align: center;
+.custom-fs-sm th {
+    height: 1px;
+    padding: 0;
+}
+.z-index-2 {
+    z-index: 2; /* Adjust this value as needed */
 }
 
-
-.table-container {
-    overflow-x: auto; /* Enable horizontal scrolling */
-    overflow-y: auto; /* Enable vertical scrolling */
-    max-width: 100vw; /* Ensure the table doesn't exceed the container width */
-    max-height: 70vh; /* Ensure the table doesn't exceed the container width */
-    margin-bottom: 20px; /* Add some spacing at the bottom */
-    position: relative;
-    /* background-color: red; */
+/* Apply custom styles to the DataTables search input */
+.dataTables_filter input {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
     padding: 5px;
-    /* Set initial scroll position to the right */
-    /* scroll-behavior: smooth;
-    scroll-snap-type: mandatory;
-    scroll-snap-align: start end;
-    scroll-padding-inline-start: 100%; */
-    /* Reverse text direction */
-    /* direction: rtl; */
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    
+    /* Add more styles as needed */
 }
 
-
-.students-table {
-    border-collapse: collapse;
-    /* width: 100%; */
-    width: max-content; /* Adjust as needed */
-}
-
-
-.students-table th,
-.students-table td {
-    border: 1px solid #000000;
-    padding: 8px;
-    text-align: center;
-    min-width: 12vw ;
-    /* max-height: 2vh; */
-}
-
-/* Add this style to create a line between columns */
-.students-table th + th,
-.students-table td + td {
-    border-left: 1px solid #ddd;
-}
-
-/* .name-header {
-    position: sticky;
-    right: 0;
-    z-index: -1;
-} */
-/* .order-col{position:sticky;}
-.order-header{position:sticky;} */
-
-.name-col {
-    background-color: lightgreen; /* Change the background color for the name column */
-    width: 20%; /* Adjust the width of the name column */
-    position: sticky;
-    right: 0;
-}
-.father-name-col, .mother-name-col {
-    background-color: lightblue; /* Change the background color for father and mother name columns */
-}
-.edit-col, .edit-header{
-    min-width: 5vw;
-    width: 5vw;
-}
-
-/* just for the postition of the searchbox */
-.dataTables_wrapper .dataTables_filter {
-    float: right;
-    text-align: right;
-    position: fixed;
-    right: 0;
-    top: 10vh;
-}
-
-
-.students-table thead th{
-    background-color: rgb(255, 167, 167);
-    border: 2px;
-    border-color: black;
-    /* position: sticky; 
-    top: 300;
-    z-index: 2; */
+#table_id input {
+    background-color: #ff0000;
+    border: 1px solid #2bff00;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    
+    /* Add more styles as needed */
 }

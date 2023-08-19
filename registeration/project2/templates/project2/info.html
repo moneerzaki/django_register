@@ -1,109 +1,178 @@
 {% extends 'project2/base.html' %}
 
-{% block title %} ebtda2y info {% endblock %}
+{% block title %} بيانات ابتدائي {% endblock %}
 
 {% block header %} 
-    {% if user.is_authenticated and user.username == "khadem" %}
-        <div> back to ebtda2y homepage <a href="{% url 'project2:ebtda2y' %}"> here </a></div>
-        <div> wanna add one? <a href="{% url 'project2:add_student' %}"> here </a></div>
-    {% endif %}
+    <!-- <div class="container text-white me-5"> <a class="btn btn-warning" href="{% url 'project2:ebtda2y' %}"> صفحة ابتدائي بنين </a></div> -->
 {% endblock %}
 
 {% block content %}
-    <h4>Student Information</h4>
-    <div class="table-container">
-        <table class="students-table" id="table_id" style="direction: rtl;">
-            <thead>
-                <tr>
+    <h4 class="text-center bg-secondary text-white container col-2 p-2 fs-5 mt-2 rounded-pill">جدول بيانات الاطفال </h4>
+    <div class="container custom-fs-sm" dir="rtl">
+        <div class="custom-fs-sm"> اضافة طفل? <a class=" btn btn-warning rounded-1" href="{% url 'project2:add_student' %}"> هنا </a></div>
+    </div>
+    <div class="container border border-3 vh-100 vw-100 overflow-auto">
+        
+        <table class=" table table-striped overflow-auto table-hover table-bordered align-middle table-responsive" id="table_id" style="direction: rtl; max-width: 100%;">
+            <thead class="table-dark text-center align-middle text-warning fs-6 custom-fs-sm position-sticky top-0">
+                <tr class="container border border-2 h-5">
                     {% if user.is_authenticated and user.username == "khadem" %}
-                        <th class="edit-header"> edit col</th>
-                    {% endif %}
-                    <th class="order-header"> الرقم </th>
-                    <th class="name-header"> الاسم </th>
-                    <th> النوع </th>
-                    <th> السنة الدراسية </th>
-                    <th> المدينة </th>
-                    <th> رقم التليفون </th> 
-                    <th> رقم التليفون 2 </th>
-                    <th> حساب الفيسبوك </th>
-                    <th> تاريخ الميلاد </th>
-                    <th> اسم المدرسة </th>
-                    <th> اسم اب الاعتراف </th>
-                    <th> الهوايات </th>
-                    <th> مشاكل صحية </th>
-                    <th> مكان السكن </th>
-                    <th> المنطقة </th>
-                    <th> العنوان </th>
-                    <th> كيف الي الكنيسة </th>
-                    <th> مسجل بقائمة الكنيسة </th>
-                    <th> عدد الغيابات </th>
-                    <th> الأخوة </th> 
-                    
-                    <th> اسم الأب </th>
-                    <th> رقم تليفون الأب 1 </th>
-                    <th> رقم تليفون الأب 2 </th>
-                    <th> حساب فيسبوك الأب </th>
-                    <th> مهنة الأب </th>
-                    <!-- <th> الأب على قيد الحياة </th> -->
-                    <th> ملاحظات الأب </th>
+                        <th class="edit-header col-5" style="width: 10px;"> edit col</th>
+                        <!-- <th class="order-header"> الرقم </th> -->
+                        <th class=" bg-warning text-white mx-5 position-sticky start-0 z-index-2"> الاسم </th>
+                        <th> النوع </th>
+                        <th> السنة الدراسية </th>
+                        <th> المدينة </th>
+                        <th> رقم التليفون </th> 
+                        <th> رقم التليفون 2 </th>
+                        <th> حساب الفيسبوك </th>
+                        <th> تاريخ الميلاد </th>
+                        <th> اسم المدرسة </th>
+                        <th> اسم اب الاعتراف </th>
+                        <th> الهوايات </th>
+                        <th> مشاكل صحية </th>
+                        <th> مكان السكن </th>
+                        <th> المنطقة </th>
+                        <th> العنوان </th>
+                        <th> كيف الي الكنيسة </th>
+                        <th> مسجل بقائمة الكنيسة </th>
+                        <th> عدد الغيابات </th>
+                        <th> الأخوة </th> 
+                        
+                        <th> اسم الأب </th>
+                        <th> رقم تليفون الأب 1 </th>
+                        <th> رقم تليفون الأب 2 </th>
+                        <th> حساب فيسبوك الأب </th>
+                        <th> مهنة الأب </th>
+                        <!-- <th> الأب على قيد الحياة </th> -->
+                        <th> ملاحظات الأب </th>
 
-                    <th> اسم الأم </th>
-                    <th> رقم تليفون الأم 1 </th>
-                    <th> رقم تليفون الأم 2 </th>
-                    <th> حساب فيسبوك الأم </th>
-                    <th> مهنة الأم </th>
-                    <!-- <th> الأم على قيد الحياة </th> -->
-                    <th> ملاحظات الأم </th> 
+                        <th> اسم الأم </th>
+                        <th> رقم تليفون الأم 1 </th>
+                        <th> رقم تليفون الأم 2 </th>
+                        <th> حساب فيسبوك الأم </th>
+                        <th> مهنة الأم </th>
+                        <!-- <th> الأم على قيد الحياة </th> -->
+                        <th> ملاحظات الأم </th> 
+                    {% endif %}
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="text-center">
                 {% for student in students %}
-                    <tr>
+                    <tr class="">
                         {% if user.is_authenticated and user.username == "khadem" %}
-                            <td class="edit-col"> <a href="{% url 'project2:edit_student' student_id=student.id %}">edit</a> </td>
+                            <td class="edit-col btn btn-warning fs-6 col-5"> <a href="{% url 'project2:edit_student' student_id=student.id %}">edit</a> </td>
+                            <!-- <td class="order-col">{{ forloop.index }}</td> -->
+                            <td class="bg-warning text-black position-sticky start-0">{{ student.name }}</td>
+                            <td>{{ student.gender }}</td>
+                            <td>{{ student.academic_year }}</td>
+                            <td>{{ student.home_town }}</td>
+                            <td>{{ student.phone_number }}</td>
+                            <td>{{ student.phone_number2 }}</td>
+                            <td>{{ student.facebook_profile }}</td>
+                            <td>{{ student.date_of_birth }}</td>
+                            <td>{{ student.school_name }}</td>
+                            <td>{{ student.confession_father }}</td>
+                            <td>{{ student.hobbies }}</td>
+                            <td>{{ student.health_problems }}</td>
+                            <td>{{ student.home_address }}</td>
+                            <td>{{ student.home_region }}</td>
+                            <td>{{ student.home_address }}</td>
+                            <td>{{ student.how_to_church }}</td>
+                            <td>{{ student.registered_in_church_list }}</td>
+                            <td>{{ student.absences }}</td>
+                            <td>
+                                {% for brother in student.brothers.all %}
+                                    {{ brother.name }}<br>
+                                {% endfor %}
+                            </td> 
+                            <td class="father-name-col">{{ student.father_name }}</td>
+                            <td>{{ student.father_phone_number1 }}</td>
+                            <td>{{ student.father_phone_number2 }}</td>
+                            <td>{{ student.father_facebook_profile }}</td>
+                            <td>{{ student.father_job }}</td>
+                            <!-- <td>{{ student.father_alive }}</td> -->
+                            <td>{{ student.father_notes }}</td>
+                            <td class="mother-name-col">{{ student.mother_name }}</td>
+                            <td>{{ student.mother_phone_number1 }}</td>
+                            <td>{{ student.mother_phone_number2 }}</td>
+                            <td>{{ student.mother_facebook_profile }}</td>
+                            <td>{{ student.mother_job }}</td>
+                            <!-- <td>{{ student.mother_alive }}</td> -->
+                            <td>{{ student.mother_notes }}</td> 
                         {% endif %}
-
-                        <td class="order-col">{{ student.id }}</td>
-                        <td class="name-col">{{ student.name }}</td>
-                        <td>{{ student.gender }}</td>
-                        <td>{{ student.academic_year }}</td>
-                        <td>{{ student.home_town }}</td>
-                        <td>{{ student.phone_number }}</td>
-                        <td>{{ student.phone_number2 }}</td>
-                        <td>{{ student.facebook_profile }}</td>
-                        <td>{{ student.date_of_birth }}</td>
-                        <td>{{ student.school_name }}</td>
-                        <td>{{ student.confession_father }}</td>
-                        <td>{{ student.hobbies }}</td>
-                        <td>{{ student.health_problems }}</td>
-                        <td>{{ student.home_address }}</td>
-                        <td>{{ student.home_region }}</td>
-                        <td>{{ student.home_address }}</td>
-                        <td>{{ student.how_to_church }}</td>
-                        <td>{{ student.registered_in_church_list }}</td>
-                        <td>{{ student.absences }}</td>
-                        <td>
-                            {% for brother in student.brothers.all %}
-                                {{ brother.name }}<br>
-                            {% endfor %}
-                        </td> 
-                        <td class="father-name-col">{{ student.father_name }}</td>
-                        <td>{{ student.father_phone_number1 }}</td>
-                        <td>{{ student.father_phone_number2 }}</td>
-                        <td>{{ student.father_facebook_profile }}</td>
-                        <td>{{ student.father_job }}</td>
-                        <!-- <td>{{ student.father_alive }}</td> -->
-                        <td>{{ student.father_notes }}</td>
-                        <td class="mother-name-col">{{ student.mother_name }}</td>
-                        <td>{{ student.mother_phone_number1 }}</td>
-                        <td>{{ student.mother_phone_number2 }}</td>
-                        <td>{{ student.mother_facebook_profile }}</td>
-                        <td>{{ student.mother_job }}</td>
-                        <!-- <td>{{ student.mother_alive }}</td> -->
-                        <td>{{ student.mother_notes }}</td> 
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Initialize DataTable with options
+        var dataTable = $("#table_id").DataTable({
+            paging: false,
+            // pageLength: 10,
+            // lengthChange: true,
+            // autoWidth: true,
+            searching: true,
+            bInfo: true,
+            bSort: true,
+            // dom: '<"d-flex justify-content-between"lf>tip',
+            dom: '<"d-flex justify-content-between"lf>tipB',
+            // scrollX: true,  // Enable horizontal scrolling
+
+            buttons:[
+                {
+                    extend: 'copy',
+                    text: '<i class="fas fa-clone"></i>',
+                    className: 'btn btn-secondary mx-3',
+                    titleAttr: 'Copy', 
+                    // selected columns
+                    exportOptions: {columns: [2,5] },
+
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fas fa-print"></i>',
+                    className: 'btn btn-secondary mx-3',
+                    titleAttr: 'Print', 
+                    // selected columns
+                    exportOptions: {columns: [2,4] },
+                    // tableHeaders: {alignment: center},
+                    // customize: function(doc) {doc.style.tableHeaders.alignment = 'center';}
+                },
+                {
+                    extend: 'pdf',
+                    text: '<i class="fas fa-pdf"></i>',
+                    className: 'btn btn-secondary mx-3',
+                    titleAttr: 'PDF', 
+                    // selected columns
+                    exportOptions: {columns: [2,4] },
+                    // tableHeaders: {alignment: center},
+                    // customize: function(doc) {doc.style.tableHeaders.alignment = 'center';}
+                }
+            ]
+        });
+
+        // Scroll the table all the way to the right
+        var dataTableScrollBody = $(".dataTables_scrollBody");
+        dataTableScrollBody.scrollLeft(dataTableScrollBody.width() * 10);
+
+        // Initialize DataTable for row selection
+        const table = new DataTable('#table_id');
+        // Handle row selection on click
+        table.on('click', 'tbody tr', function(e) {
+            e.currentTarget.classList.toggle('selected');
+        });
+        // Handle button click to display selected rows
+        document.querySelector('#button').addEventListener('click', function() {
+            alert(table.rows('.selected').data().length + ' row(s) selected');
+        });
+    });
+</script>
+
 {% endblock %}

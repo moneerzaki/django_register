@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'register/registeration_page.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/css/bootstrap.rtl.min.css" integrity="sha512-+IhzrT1JyXRxWuvzHykmn+RE1wXuw9sjSAmBBKnN4fRqlqwX9tTXmWPlHqOpbOyEPX3a4W8SEDwDbHJSYTO3aQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'register/registeration_page.css' %}"> -->
     {% block style %} 
 
     {% endblock %}
@@ -14,16 +15,22 @@
 </head>
 
 <body>
-    <header>
-        <h1>
+    <header class="col">
+        <h1 class="bg-secondary text-white text-center p-3">
             {% block headertitle%} {% endblock %}
+            
         </h1>
-        
         {% if user.is_authenticated %}
-            <h4>    
-                <a href="{% url 'logout' %}"> logout </a>
-            </h4>
+            <div class="container row align-content-center justify-items-center text-center vh-100">
+                <h5 class="text-center align-self-center justify-content-center  col-4"> already logged in </h5>
+                <h4 class="container  col-8">    
+                    <a href="{% url 'logout' %}" class="btn btn-outline-secondary m-5 p-3 row"> logout </a>
+                    <a href="{% url 'project2:ebtda2y' %}" class="btn btn-outline-secondary m-5 p-3 row"> go to project </a>
+                </h4>
+            </div>
+            
         {% endif %}
+        
         
     </header>
     <div id="page_content">
@@ -34,8 +41,11 @@
             {% endfor %}    
         {% endif %}
 
-        {% block content %}
-        {% endblock %}
+        {% if not user.is_authenticated %}
+            {% block content %}
+            {% endblock %}
+        {% endif %}
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.esm.min.js" integrity="sha512-q6xJFElwi1O83WMrxeYnBw4dqSojEW2st5VJoFrmCmsqQsFdksY2nJURIW4UK7sIp6pZmktHSA2yA0vcwqfXBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 </html>
