@@ -28,3 +28,24 @@
     
     /* Add more styles as needed */
 }
+
+.dataTables_filter input {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    /* Add more styles as needed */
+}
+
+/* Sticky search box */
+.dataTables_wrapper .dataTables_filter {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    padding: 10px; /* Adjust padding as needed */
+}

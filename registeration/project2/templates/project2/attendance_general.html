@@ -1,0 +1,122 @@
+{% extends 'project2/base.html' %}
+
+
+{% block title %} كشف غياب ابتدائي {% endblock %}
+
+{% block header %} 
+    <!-- <div class="container text-white me-5"> <a class="btn btn-warning" href="{% url 'project2:ebtda2y' %}"> صفحة ابتدائي بنين </a></div> -->
+{% endblock %}
+
+{% block content %}
+    <h4 class="text-center bg-secondary text-white container col-2 p-2 fs-5 mt-2 rounded-pill"> كشف ابتدائي بنين </h4>
+
+    <div class="container-fluid d-flex align-items-center justify-content-center mt-5">
+        <a href="{% url 'project2:attendance_12' %}" class=" col-2 btn btn-warning rounded-circle py-3 m-1 fw-bolder"> غياب اولي <br> وتانية النهاردة </a>
+        <a href="{% url 'project2:attendance_34' %}" class=" col-2 btn btn-warning text-dark rounded-circle py-3 m-1 fw-bolder"> غياب تالتة <br> ورابعة ابتدائي </a>
+        <a href="{% url 'project2:attendance_56' %}" class=" col-2 btn btn-warning rounded-circle py-3 m-1 fw-bolder"> غياب خامسة <br> وسادسة ابتدائي </a>
+    </div>
+
+    <div class="container mt-5 border border-3 vh-100 vw-100 overflow-auto">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped text-center overflow-auto " dir="rtl" id="table_id">
+                        <thead class="bg-warning">
+                            <tr>
+                                <th> اسم الطالب </th> <!-- Empty cell for student names -->
+                                <th> السنة الدراسية</th> <!-- Empty cell for student names -->
+                                {% for date in dates %}
+                                    <th class="text-white">{{ date|date:"d M" }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student_data in attendance_data %}
+                                <tr>
+                                    <th>{{ student_data.name }}</th>
+                                    <th>{{ student_data.academic_year }}</th>
+                                    {% for attendance_status in student_data.attendance_status %}
+                                        <td>{% if attendance_status %}حضر{% endif %}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>                        
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Initialize DataTable with options
+        var dataTable = $("#table_id").DataTable({
+            paging: false,
+            // pageLength: 10,
+            // lengthChange: true,
+            // autoWidth: true,
+            searching: true,
+            bInfo: true,
+            bSort: true,
+            // dom: '<"d-flex justify-content-between"lf>tip',
+            dom: '<"d-flex justify-content-between"lf>tipB',
+            // scrollX: true,  // Enable horizontal scrolling
+
+            buttons:[
+                {
+                    extend: 'copy',
+                    text: '<i class="fas fa-clone"></i>',
+                    className: 'btn btn-secondary mx-3',
+                    titleAttr: 'Copy', 
+                    // selected columns
+                    exportOptions: {columns: [2,5] },
+
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fas fa-print"></i>',
+                    className: 'btn btn-secondary mx-3',
+                    titleAttr: 'Print', 
+                    // selected columns
+                    exportOptions: {columns: [2,4] },
+                    // tableHeaders: {alignment: center},
+                    // customize: function(doc) {doc.style.tableHeaders.alignment = 'center';}
+                },
+                {
+                    extend: 'pdf',
+                    text: '<i class="fas fa-pdf"></i>',
+                    className: 'btn btn-secondary mx-3',
+                    titleAttr: 'PDF', 
+                    // selected columns
+                    exportOptions: {columns: [2,4] },
+                    // tableHeaders: {alignment: center},
+                    // customize: function(doc) {doc.style.tableHeaders.alignment = 'center';}
+                }
+            ]
+        });
+
+        // Scroll the table all the way to the right
+        var dataTableScrollBody = $(".dataTables_scrollBody");
+        dataTableScrollBody.scrollLeft(dataTableScrollBody.width() * 10);
+
+        // Initialize DataTable for row selection
+        const table = new DataTable('#table_id');
+        // Handle row selection on click
+        table.on('click', 'tbody tr', function(e) {
+            e.currentTarget.classList.toggle('selected');
+        });
+        // Handle button click to display selected rows
+        document.querySelector('#button').addEventListener('click', function() {
+            alert(table.rows('.selected').data().length + ' row(s) selected');
+        });
+        // Add Bootstrap classes to the search input and wrapper
+        $('.dataTables_filter input').addClass('form-control')
+            .attr('placeholder', 'ابحث...'); // Customize the placeholder text as needed
+        $('.dataTables_wrapper .dataTables_filter')
+            .addClass('sticky-top bg-light p-2 justify-content-center');
+    });
+</script>
+{% endblock %}

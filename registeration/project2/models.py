@@ -1,17 +1,8 @@
 from django.db import models
 from datetime import date
+# from django.contrib.postgres.fields import ArrayField
+from datetime import datetime
 
-
-# class Guardian(models.Model):
-#     name = models.CharField(max_length=100)
-#     phone_number1 = models.CharField(max_length=11, blank=True)
-#     phone_number2 = models.CharField(max_length=11, blank=True)
-#     facebook_profile = models.TextField(blank=True)
-#     job = models.CharField(max_length=100, blank=True)
-    
-
-#     def __str__(self):
-#         return self.name
 
 
 class Student(models.Model):
@@ -59,10 +50,7 @@ class Student(models.Model):
     how_to_church = models.CharField(max_length=255,blank=True)
     registered_in_church_list = models.BooleanField(default=False)
     absences = models.IntegerField(default=0, blank=True, null=True)
-    # brothers = models.ForeignKey('self', on_delete=models.SET_NULL, symmetrical=True, null=True, blank=True)
-    brothers = models.ManyToManyField('self', symmetrical=True, null=True, blank=True, default=list)
-    # brothers = models.CharField(max_length=255, blank=True)
-    # brothers = models.JSONField(default=list)
+    brothers = models.ManyToManyField('self', symmetrical=True, blank=True, default=list)
     notes = models.TextField(blank=True, default='')
 
 
@@ -86,26 +74,6 @@ class Student(models.Model):
 
     def __str__(self):
         return self.name
-    
-    # def save(self, *args, **kwargs):
-    #     student_name_parts = self.name.split()
-    #     if self.name:
-    #         # if len(student_name_parts) >= 2:  # Make sure there are at least 2 parts in the name
-    #             # Set default values for father_name and mother_name
-    #             self.father_name = " ".join(student_name_parts[1:])
-    #             self.mother_name = f"ام {self.name}"
-
-    #             super().save(*args, **kwargs)
-    #             # Check for other students with the same father name
-    #             other_students = Student.objects.filter(father_name=self.father_name).exclude(pk=self.pk)
-    #             for student in other_students:
-    #                 if student != self:
-    #                     # Establish brother relationship
-    #                     student.brothers.add(self)
-    #                     self.brothers.add(student)
-    #                     # student.save()
-    #                     # self.save()
-    #             super().save(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         student_name_parts = self.name.split()
@@ -128,3 +96,22 @@ class Student(models.Model):
 
             
 
+class AttendanceRecord(models.Model):
+    date = models.DateField(default=datetime.today)
+    day_title = models.CharField(max_length=30, default="مدارس احد")
+    academic_year=models.CharField(max_length=30, default="", blank=True)
+    students_present = models.TextField(blank=True)
+
+    def mark_attendance(self, student):
+        if not self.students_present:
+            self.students_present = student.name
+        else:
+            self.students_present += f",{student.name}"
+
+    def get_attendance_list(self):
+        if self.students_present:
+            return self.students_present.split(",")
+        return []
+
+    def __str__(self):
+        return f"Attendance for {self.day_title} on {self.date}"

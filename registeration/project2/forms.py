@@ -18,8 +18,3 @@ class StudentForm(forms.ModelForm):
 
 
 
-
-# class GuardianForm(forms.ModelForm):
-#     class Meta:
-#         model = Guardian
-#         fields = '__all__'  # You can specify the fields you want to include here if needed
