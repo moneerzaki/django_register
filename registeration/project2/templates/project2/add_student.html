@@ -4,9 +4,7 @@
 
 
 {% block header %} 
-    {% if user.is_authenticated and user.username == "moneerzaki" %}
-            <div> back to ebtda2y info <a href="{% url 'project2:info' %}"> here </a></div>
-    {% endif %}
+            
 {% endblock %}
 
 {% block content %} 
@@ -18,15 +16,87 @@
         {% endfor %}
     </ul>
     {% endif %}
-    <br>
-    <hr>
-    <br>
-    <p> fill in the form to a new student </p>
 
-    <form method="post">
+    <div class="container text-white me-5 float-end mt-3 me-3 position-sticky sticky-top"> <a class="btn btn-warning px-4 py-2" href="{% url 'project2:info' %}"> الرجوع </a></div>
+
+    <p class=" container vw-100 text-center"> فورم اضافة طفل جديد </p>
+
+    <form method="POST" dir="rtl">
+        
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Add Student</button>
+        <!-- {{form.name}} -->
+        <div class="container vw-100 text-center border border-2">
+            <div class="image"> <i class="bi bi-person-circle display-1" style="font-size: 10rem;"></i> </div>
+            <div class="btn btn-warning m-2 px-4 py-2 rounded-pill"> 
+                الاسم بالكامل (رباعي) 
+                    {{form.name}} 
+                <!-- <p>Name value: {{ form.name.value }}</p> -->
+                <!-- <input type="text" name="{{ form.name.name }}" placeholder="Enter student's full name" value="{{ form.name.value }}"> -->
+                <!-- <input type="text" name="{{ form.name.name }}" value="{{ form.name.value }}" class="form-control"> -->
+                <!-- <input type="text" name="{{ form.name.name }}" value="{{ form.name.value }}"> -->
+                <!-- <input type="text" name="name" placeholder="Enter student's full name" value="{{ form.name.value }}"> -->
+            </div>
+        </div>
+        
+        <div class="container vw-100 d-flex flex-row justify-content-around border border-2 flex-wrap " dir="rtl">
+            <div class=" btn btn-warning m-2 px-4 py-2 rounded-pill"> النوع {{form.gender}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> تاريخ الميلاد {{form.date_of_birth}} </div>
+        </div>
+        <div class="container vw-100 d-flex flex-row justify-content-start border border-2 flex-wrap " dir="rtl">
+            <div class="m-2 px-4 py-2 col-lg-5"> رقم تليفون الطفل 1  {{form.phone_number}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> رقم تليفون الطفل 2  {{form.phone_number2}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> مدينة الاقامة {{form.home_town}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> المنطقة {{form.home_region}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> عنوان البيت بالتفصيل {{form.home_address}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> فيسبوك الطفل {{form.facebook_profile}} </div>
+        </div>
+        <div class="container vw-100 d-flex flex-row justify-content-start border border-2 flex-wrap " dir="rtl">
+            <div class="btn btn-warning m-2 px-4 py-2 rounded-pill"> السنة الدراسية {{form.academic_year}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> اسم المدرسة {{form.school_name}} </div>
+            
+        </div>
+        <div class="container vw-100 d-flex flex-row justify-content-start border border-2 flex-wrap " dir="rtl">
+            <div class="m-2 px-4 py-2 col-lg-5"> اسم اب الاعتراف {{form.confession_father}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> طريقة قدومه للكنيسة {{form.how_to_church}} </div>
+        </div>
+
+        <div class="container vw-100 d-flex flex-row justify-content-start border border-2 flex-wrap " dir="rtl">
+            <div class="m-2 px-4 py-2 w-100 "> الهوايات {{form.hobbies}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> المشاكل الصحية {{form.health_problems}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> الاخوات {{form.brothers}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> ملاحظات اخري {{form.notes}} </div>
+        </div>
+
+        <div class="container vw-100 d-flex flex-row justify-content-start border border-2 flex-wrap " dir="rtl">
+            <p class="col-lg-12 fs-1 text-center text-warning text-decoration-underline">بيانات الام</p>
+            <div class="m-2 px-4 py-2 w-100 ">
+                 اسم الام ثلاثي 
+                 {{form.mother_name}}
+                <!-- <input type="text" name="{{form.mother_name.name}}" placeholder="مينا كيرلس رامي ابراهيم" value="{{ form.mother_name.value }}">     -->
+                <!-- <input type="text" name="{{ form.name.name }}" placeholder="مينا كيرلس رامي ابراهيم" value="{{ form.name.value }}"> -->
+            </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> 1 رقم تليفون الام {{form.mother_phone_number1}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5">رقم تليفون الام 2 {{form.mother_phone_number2}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> فيسبوك الام {{form.mother_facebook_profile}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> وظيفة الام {{form.mother_job}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> علي قيد الحياة {{form.mother_alive}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> ملحوظات عن الام {{form.mother_notes}} </div>
+        </div>
+        <div class="container vw-100 d-flex flex-row justify-content-start border border-2 flex-wrap " dir="rtl">
+            <p class="col-lg-12 fs-1 text-center text-warning text-decoration-underline">بيانات الاب</p>
+            <div class="m-2 px-4 py-2 w-100 "> اسم الاب ثلاثي {{form.father_name}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> 1 رقم تليفون الاب {{form.father_phone_number1}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5">رقم تليفون الاب 2 {{form.father_phone_number2}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> فيسبوك الاب {{form.father_facebook_profile}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> وظيفة الاب {{form.father_job}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> علي قيد الحياة {{form.father_alive}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> ملحوظات عن الاب {{form.father_notes}} </div>
+        </div>
+
+        <!-- {{ form.as_div }} -->
+        <div class="container d-flex flex-row justify-content-center text-center">
+            <button class="btn btn-warning px-5 py-2 text-center my-3" type="submit">Add Student</button>
+        </div>
     </form>
     
 {% endblock %}

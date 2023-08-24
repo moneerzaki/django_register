@@ -11,9 +11,8 @@ urlpatterns = [
     path('ebtda2y/info/add_student/', views.add_student, name="add_student"),
     path('ebtda2y/info/edit_student/<int:student_id>/', views.edit_student, name="edit_student"),
     path('ebtda2y/birthdays/', views.birthdays, name="birthdays"),
-    path('ebtda2y/attendance/', views.attendance, name="attendance"),
-    path('ebtda2y/attendance_12/', views.attendance_12, name="attendance_12"),
-    path('ebtda2y/attendance_34/', views.attendance_34, name="attendance_34"),
-    path('ebtda2y/attendance_56/', views.attendance_56, name="attendance_56"),
-
+    path('ebtda2y/attendance/', views.attendance_general, name="attendance_general"),
+    path('ebtda2y/attendance/<str:class_number>/', views.attendance_specific, name="attendance_specific"),
+    # path('ebtda2y/attendance_34/', views.attendance_34, name="attendance_34"),
+    # path('ebtda2y/attendance_56/', views.attendance_56, name="attendance_56"),
 ]

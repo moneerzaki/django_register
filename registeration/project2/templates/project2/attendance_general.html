@@ -8,15 +8,23 @@
 {% endblock %}
 
 {% block content %}
-    <h4 class="text-center bg-secondary text-white container col-2 p-2 fs-5 mt-2 rounded-pill"> كشف ابتدائي بنين </h4>
-
-    <div class="container-fluid d-flex align-items-center justify-content-center mt-5">
-        <a href="{% url 'project2:attendance_12' %}" class=" col-2 btn btn-warning rounded-circle py-3 m-1 fw-bolder"> غياب اولي <br> وتانية النهاردة </a>
-        <a href="{% url 'project2:attendance_34' %}" class=" col-2 btn btn-warning text-dark rounded-circle py-3 m-1 fw-bolder"> غياب تالتة <br> ورابعة ابتدائي </a>
-        <a href="{% url 'project2:attendance_56' %}" class=" col-2 btn btn-warning rounded-circle py-3 m-1 fw-bolder"> غياب خامسة <br> وسادسة ابتدائي </a>
+    <div class="container d-flex flex-row justify-content-center">
+        <h4 class="text-center bg-secondary text-white col-3 col-sm-4 col-md-4 px-4 pb-2 fs-5 mb-1 rounded-pill"> كشف ابتدائي بنين </h4>
     </div>
 
-    <div class="container mt-5 border border-3 vh-100 vw-100 overflow-auto">
+    <div class="container-fluid d-flex align-items-center justify-content-center m-1">
+        <a href="{% url 'project2:attendance_specific' class_number='12' %}" class=" col-lg-2 col-md-2 col-sm-3 btn btn-warning rounded-circle py-3 m-3 fw-bolder"> غياب اولي <br> وتانية النهاردة </a>
+        <a href="{% url 'project2:attendance_specific' class_number='34' %}" class=" col-lg-2 col-md-2 col-sm-3 btn btn-warning text-dark rounded-circle py-3 m-3 fw-bolder"> غياب تالتة <br> ورابعة ابتدائي </a>
+        <a href="{% url 'project2:attendance_specific' class_number='56' %}" class=" col-lg-2 col-md-2 col-sm-3 btn btn-warning rounded-circle py-3 m-3 fw-bolder"> غياب خامسة <br> وسادسة ابتدائي </a>
+    </div>
+
+    <div class=" container d-flex flex-row justify-content-around text-center" dir="rtl">
+        <div class="input-group input-group-sm col-3">
+            <input class="form-control" type="search" id="search" placeholder="live search " aria-label="Search">
+            <a href="{% url 'project2:info' %}" class="btn btn-warning btn-sm"><i class="bi bi-arrow-clockwise"></i> </a>
+        </div>
+    </div>
+    <div class="container border border-3 vh-100 vw-100 overflow-auto">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="table-responsive">
@@ -33,11 +41,21 @@
                         <tbody>
                             {% for student_data in attendance_data %}
                                 <tr>
-                                    <th>{{ student_data.name }}</th>
+                                    <th class="bg-warning text-white">{{ student_data.name }}</th>
                                     <th>{{ student_data.academic_year }}</th>
-                                    {% for attendance_status in student_data.attendance_status %}
+                                    <!-- {% for attendance_status in student_data.attendance_status %}
                                         <td>{% if attendance_status %}حضر{% endif %}</td>
+                                    {% endfor %} -->
+                                    {% for attendance_status in student_data.attendance_status %}
+                                        {% if attendance_status == "attended" %}
+                                            <td> حضر </td>
+                                            {% elif attendance_status == "4_weeks_bonus" %}
+                                            <td class="bg-success"> حضر </td>    
+                                            {% else %}
+                                            <td>  </td>    
+                                        {% endif %}
                                     {% endfor %}
+                                    
                                 </tr>
                             {% endfor %}
                         </tbody>                        
@@ -97,6 +115,9 @@
                 }
             ]
         });
+        $('#search').keyup(function() {
+            dataTable.search($(this).val()).draw();
+        })
 
         // Scroll the table all the way to the right
         var dataTableScrollBody = $(".dataTables_scrollBody");

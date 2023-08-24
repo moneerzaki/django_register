@@ -28,7 +28,7 @@ class Student(models.Model):
         (5, '5'),
         (6, '6'),
     )
-
+    
 
     #required fields
     name = models.CharField(max_length=100)
@@ -77,30 +77,51 @@ class Student(models.Model):
 
     def save(self, *args, **kwargs):
         student_name_parts = self.name.split()
-        if not self.pk:  # Only perform these actions if the instance is being created, not updated
-            if self.name:
-                self.father_name = " ".join(student_name_parts[1:])
-                self.mother_name = f"ام {self.name}"
-
-            super().save(*args, **kwargs)  # Save the initial instance
-
+        # if not self.pk:  # Only perform these actions if the instance is being created, not updated
             # Check for other students with the same father name
-            other_students = Student.objects.filter(father_name=self.father_name).exclude(pk=self.pk)
-            for student in other_students:
-                if student != self:
-                    # Establish brother relationship
-                    student.brothers.add(self)
-                    self.brothers.add(student)
-                    student.save()  # Save the related student
-                    self.save()     # Save the current student again with the added brother relationship
+            # other_students = Student.objects.filter(father_name=self.father_name).exclude(pk=self.pk)
+            # for student in other_students:
+            #     if student != self:
+            #         # Establish brother relationship
+            #         # student.brothers.add(self)
+            #         # self.brothers.add(student)
+            #         student.save()  # Save the related student
+            #         self.save()     # Save the current student again with the added brother relationship
+        if not self.father_name: 
+            self.father_name = " ".join(student_name_parts[1:])
+        if not self.mother_name:
+            self.mother_name = f"ام {self.name}"
+            print("mother name is empty")
+        else: 
+            print("mother name is written ")
+
+        super().save(*args, **kwargs)  # Save the initial instance
+
 
             
 
 class AttendanceRecord(models.Model):
-    date = models.DateField(default=datetime.today)
-    day_title = models.CharField(max_length=30, default="مدارس احد")
+    DAY_TITLE_CHOICES = (
+        ('مدارس احد', 'مدارس احد'),
+        ('يوم روحي', 'يوم روحي'),
+        ('خلوة', 'خلوة'),
+        ('يوم رياضي', 'يوم رياضي'),
+        ('رحلة', 'رحلة'),
+        ('الحان', 'الحان'),
+        ('تسبحة', 'تسبحة'),
+        ('عشية', 'عشية'),
+        ('عيد', 'عيد'),
+    )
+
+    date = models.DateField(default=datetime.today, unique=True)
+    day_title = models.CharField(max_length=50, choices=DAY_TITLE_CHOICES, default="مدارس احد")
+    day_topic = models.CharField(max_length=255, default="", blank=True)
+    day_verse = models.CharField(max_length=255, default="", blank=True)
     academic_year=models.CharField(max_length=30, default="", blank=True)
     students_present = models.TextField(blank=True)
+
+    class Meta:
+        unique_together = ['date']
 
     def mark_attendance(self, student):
         if not self.students_present:

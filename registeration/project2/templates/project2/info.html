@@ -7,19 +7,28 @@
 {% endblock %}
 
 {% block content %}
-    <h4 class="text-center bg-secondary text-white container col-2 p-2 fs-5 mt-2 rounded-pill">جدول بيانات الاطفال </h4>
-    <div class="container custom-fs-sm" dir="rtl">
-        <div class="custom-fs-sm"> اضافة طفل? <a class=" btn btn-warning rounded-1" href="{% url 'project2:add_student' %}"> هنا </a></div>
+    <h4 class="text-center bg-secondary text-white container col-2 p-2 fs-6 mt-2 rounded-pill ">جدول بيانات الاطفال </h4>
+    <div class="container d-flex flex-row justify-content-between">
+        <div class="custom-fs-sm" dir="rtl">
+            <div class="custom-fs-sm"> اضافة طفل? <a class=" btn btn-warning rounded-1" href="{% url 'project2:add_student' %}"> هنا </a></div>
+        </div>
+        <div class="text-center" >
+            <div class="input-group input-group-sm">
+                <input class="form-control" type="search" id="search" placeholder="live search " aria-label="Search">
+                <a href="{% url 'project2:info' %}" class="btn btn-warning btn-sm"><i class="bi bi-arrow-clockwise"></i> </a>
+            </div>
+        </div>
     </div>
-    <div class="container border border-3 vh-50 vw-100 overflow-auto">
+
+    <div class="container border border-3 w-100 overflow-auto shadow text-center" style="height: 70vh;">
         
-        <table class=" table table-striped overflow-auto table-hover table-bordered align-middle table-responsive" id="table_id" style="direction: rtl; max-width: 100%;">
-            <thead class="table-dark text-center align-middle text-warning fs-6 custom-fs-sm position-sticky top-0">
-                <tr class="container border border-2 h-5">
+        <table class=" table table-striped overflow-auto table-hover table-bordered align-middle table-responsive" id="table_id" style="direction: rtl; max-width: 100%; font-size: small;">
+            <thead class="table-dark text-center align-middle text-warning position-sticky top-0">
+                <tr class="border border-2 border-white position-sticky top-0">
                     {% if user.is_authenticated and user.username == "khadem" %}
-                        <th class="edit-header col-5" style="width: 10px;"> edit col</th>
+                        <th class="edit-header col-5" > edit col</th>
                         <!-- <th class="order-header"> الرقم </th> -->
-                        <th class=" bg-warning text-white mx-5 position-sticky start-0 z-index-2"> الاسم </th>
+                        <th class=" bg-warning text-white mx-5 position-sticky z-index-2" style="width: 30%; "> الاسم </th>
                         <th> النوع </th>
                         <th> السنة الدراسية </th>
                         <th> المدينة </th>
@@ -53,15 +62,15 @@
                         <th> حساب فيسبوك الأم </th>
                         <th> مهنة الأم </th>
                         <!-- <th> الأم على قيد الحياة </th> -->
-                        <th> ملاحظات الأم </th> 
+                        <th class="px-5" style="width: 40%;"> ملاحظات الأم </th> 
                     {% endif %}
                 </tr>
             </thead>
             <tbody class="text-center">
                 {% for student in students %}
-                    <tr class="">
+                    <tr class="border border-1 border-dark">
                         {% if user.is_authenticated and user.username == "khadem" %}
-                            <td class="edit-col btn btn-warning fs-6 col-5"> <a href="{% url 'project2:edit_student' student_id=student.id %}">edit</a> </td>
+                            <td class="edit-col btn btn-warning fs-6 col-5"> <a href=" {% url 'project2:edit_student' student_id=student.id %}"> edit </a> </td>
                             <!-- <td class="order-col">{{ forloop.index }}</td> -->
                             <td class="bg-warning text-black position-sticky start-0">{{ student.name }}</td>
                             <td>{{ student.gender }}</td>
@@ -86,20 +95,41 @@
                                     {{ brother.name }}<br>
                                 {% endfor %}
                             </td> 
-                            <td class="father-name-col">{{ student.father_name }}</td>
-                            <td>{{ student.father_phone_number1 }}</td>
-                            <td>{{ student.father_phone_number2 }}</td>
-                            <td>{{ student.father_facebook_profile }}</td>
-                            <td>{{ student.father_job }}</td>
-                            <!-- <td>{{ student.father_alive }}</td> -->
-                            <td>{{ student.father_notes }}</td>
-                            <td class="mother-name-col">{{ student.mother_name }}</td>
-                            <td>{{ student.mother_phone_number1 }}</td>
-                            <td>{{ student.mother_phone_number2 }}</td>
-                            <td>{{ student.mother_facebook_profile }}</td>
-                            <td>{{ student.mother_job }}</td>
-                            <!-- <td>{{ student.mother_alive }}</td> -->
-                            <td>{{ student.mother_notes }}</td> 
+                            {% if student.father_alive %}
+                                <td class="father-name-col bg-warning">{{ student.father_name }}</td>
+                                <td class="">{{ student.father_phone_number1 }}</td>
+                                <td>{{ student.father_phone_number2 }}</td>
+                                <td>{{ student.father_facebook_profile }}</td>
+                                <td>{{ student.father_job }}</td>
+                                <!-- <td>{{ student.father_alive }}</td> -->
+                                <td>{{ student.father_notes }}</td>
+                            {% else %}
+                                <td class="father-name-col bg-danger">{{ student.father_name }}</td>
+                                <td class=" ">{{ student.father_phone_number1 }}</td>
+                                <td class=" ">{{ student.father_phone_number2 }}</td>
+                                <td class=" ">{{ student.father_facebook_profile }}</td>
+                                <td class=" ">{{ student.father_job }}</td>
+                                <!-- <td>{{ student.father_alive }}</td> -->
+                                <td class=" bg-pink">{{ student.father_notes }}</td>
+                            {% endif %}
+
+                            {% if student.mother_alive %}
+                                <td class="mother-name-col bg-warning">{{ student.mother_name }}</td>
+                                <td class="">{{ student.mother_phone_number1 }}</td>
+                                <td>{{ student.mother_phone_number2 }}</td>
+                                <td>{{ student.mother_facebook_profile }}</td>
+                                <td>{{ student.mother_job }}</td>
+                                <!-- <td>{{ student.mother_alive }}</td> -->
+                                <td>{{ student.mother_notes }}</td>
+                            {% else %}
+                                <td class="mother-name-col bg-danger">{{ student.mother_name }}</td>
+                                <td class=" ">{{ student.mother_phone_number1 }}</td>
+                                <td class=" ">{{ student.mother_phone_number2 }}</td>
+                                <td class=" ">{{ student.mother_facebook_profile }}</td>
+                                <td class=" ">{{ student.mother_job }}</td>
+                                <!-- <td>{{ student.mother_alive }}</td> -->
+                                <td class=" bg-pink">{{ student.mother_notes }}</td>
+                            {% endif %}
                         {% endif %}
                     </tr>
                 {% endfor %}
@@ -116,14 +146,14 @@
         var dataTable = $("#table_id").DataTable({
             paging: false,
             // pageLength: 10,
-            // lengthChange: true,
-            // autoWidth: true,
+            lengthChange: true,
+            autoWidth: false,
             searching: true,
             bInfo: true,
             bSort: true,
             // dom: '<"d-flex justify-content-between"lf>tip',
             dom: '<"d-flex justify-content-between"lf>tipB',
-            // scrollX: true,  // Enable horizontal scrolling
+            scrollX: true,  // Enable horizontal scrolling
 
             buttons:[
                 {
@@ -158,6 +188,11 @@
             ]
         });
 
+        // var dataTable = $("#table_id").DataTable();
+        $('#search').keyup(function() {
+            dataTable.search($(this).val()).draw();
+        })
+
         // Scroll the table all the way to the right
         var dataTableScrollBody = $(".dataTables_scrollBody");
         dataTableScrollBody.scrollLeft(dataTableScrollBody.width() * 10);
@@ -168,6 +203,7 @@
         table.on('click', 'tbody tr', function(e) {
             e.currentTarget.classList.toggle('selected');
         });
+
         // Handle button click to display selected rows
         document.querySelector('#button').addEventListener('click', function() {
             alert(table.rows('.selected').data().length + ' row(s) selected');

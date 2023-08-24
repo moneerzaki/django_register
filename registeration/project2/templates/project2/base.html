@@ -9,6 +9,8 @@
     <!-- bootstrap css style -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/css/bootstrap.rtl.min.css" integrity="sha512-+IhzrT1JyXRxWuvzHykmn+RE1wXuw9sjSAmBBKnN4fRqlqwX9tTXmWPlHqOpbOyEPX3a4W8SEDwDbHJSYTO3aQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" integrity="sha512-ZnR2wlLbSbr8/c9AgLg3jQPAattCUImNsae6NHYnS9KrIwRdcY9DxFotXhNAKIKbAXlRnujIqUWoXXwqyFOeIQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.rtl.min.css" integrity="sha512-rXhL8a+X3wTosWn2Zgd/5L8rfWrpff7qdOnl7Wg1n2zHk8lHGhiSujoyxoKw1nf43kZAzJoe0Z0ymr2Kkku7lQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"> -->
@@ -29,10 +31,10 @@
     <title> {% block title %} {% endblock %} </title>
 </head>
 <body>
-    <header class="bg-secondary justify-content-around p-3 row">
+    <header class="bg-secondary d-flex flex-row justify-content-around p-3">
         
-        <p class="text-white fw-bolder col-5 fs-2 "> <a class="text-decoration-none text-white p-3 border-bottom border-bottom-3 " href="{% url 'project2:ebtda2y' %}"> ابتدائي بنين </a>  </p>
-        <a class="btn btn-outline-warning col-1 align-self-center" href="{% url 'logout' %}"> logout </a>
+        <p class="text-white fw-bolder col-5 fs-3"> <a class="text-decoration-none text-white p-3 border-bottom border-bottom-3 " href="{% url 'project2:ebtda2y' %}"> ابتدائي بنين </a>  </p>
+        <a class="btn btn-outline-warning px-lg-5 col-2 py-2" href="{% url 'logout' %}"> logout </a>
 
 
         {% block header %} {% endblock %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Student
+from .models import Student, AttendanceRecord
 
 class StudentForm(forms.ModelForm):
     class Meta:
@@ -18,3 +18,10 @@ class StudentForm(forms.ModelForm):
 
 
 
+class AttendanceRecordForm(forms.ModelForm):
+    class Meta:
+        model = AttendanceRecord
+        fields = '__all__'  # You can specify the fields you want to include here if needed
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'}),
+        }
