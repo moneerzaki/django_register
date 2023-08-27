@@ -2,11 +2,11 @@
 
 
 {% block title %} 
-    {% if class_number == "12" %}
+    {% if form.academic_year == "12" %}
         كشف غياب اولي وتانية ابتدائي
-    {% elif class_number == "34" %}
+    {% elif form.academic_year == "34" %}
         كشف غياب تالتة ورابعة ابتدائي
-    {% elif class_number == "56" %}
+    {% elif form.academic_year == "56" %}
         كشف غياب خامسة وسادسة ابتدائي
     {% endif %}
  {% endblock %}
@@ -16,14 +16,22 @@
 {% endblock %}
 
 {% block content %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %} > {{ message }} </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     <div class="container text-white " style="position:fixed; top: 60px; left: 25px; z-index: 999;"> <a class="btn btn-warning"  href="{% url 'project2:attendance_general' %}"> الرجوع </a></div>
 
     <h4 class="text-center bg-secondary text-white container p-2  rounded-pill text-truncate" style="font-size: 14px;"> 
-        {% if class_number == "12" %}
+        {% if form.instance.academic_year == "12" %}
             كشف غياب اولي وتانية ابتدائي
-        {% elif class_number == "34" %}
+        {% elif form.instance.academic_year == "34" %}
             كشف غياب تالتة ورابعة ابتدائي
-        {% elif class_number == "56" %}
+        {% elif form.instance.academic_year == "56" %}
             كشف غياب خامسة وسادسة ابتدائي
         {% endif %}
     </h4>
@@ -37,13 +45,7 @@
         {% endfor %}
         <button type="submit">Submit</button>
     </form> -->
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+    
     
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -51,27 +53,40 @@
                 <form method="post">
                     {% csrf_token %}
                     <div class="container border border-3 d-flex flex-row flex-wrap" dir="rtl">
-                        <div class="m-2"> تاريخ الغياب {{form.date}} </div>
-                        <div class="m-s"> فصل <input type="text" name="academic_year" value="{{ class_number }}" readonly> </div>
+                        <div class="m-2"> تاريخ الغياب {{form.instance.date}} </div>
+                        <div class="m-s"> فصل <input type="text" name="academic_year" value="{{ form.instance.academic_year }}" readonly> </div>
                         <div class="m-2"> عنوان اليوم {{form.day_title}} </div>
                         <div class="m-2"> موضوع اليوم {{form.day_topic}} </div>
                         <div class="m-2"> اية اليوم {{form.day_verse}} </div>
                     </div>
 
                     <div class="alert alert-warning" role="alert">
-                        {% if class_number == '12' %}
+                        {% if form.instance.academic_year == '12' %}
                             <h5 class="text-center">اسماء اولي ابتدائي</h5>
-                        {% elif class_number == '34' %}
+                        {% elif form.instance.academic_year == '34' %}
                             <h5 class="text-center">اسماء تالتة ابتدائي</h5>
-                        {% elif class_number == '56' %}
+                        {% elif form.instance.academic_year == '56' %}
                             <h5 class="text-center">اسماء خامسة ابتدائي</h5>
                         {% endif %}
 
                         
 
-                        {% for student in students_1 %}
+                        <!-- {% for student in students_1 %}
                             <div class="form-check">
                                 <input class="form-check-input larger-checkbox" type="checkbox" name="attended_names" value="{{ student.name }}" id="{{ student.name }}">
+                                <label class="form-check-label" for="{{ student.name }}">
+                                    {{ student.name }}
+                                </label>
+                                <hr>
+                            </div>
+                        {% endfor %} -->
+                        {% for student in students_1 %}
+                            <div class="form-check">
+                                <input class="form-check-input larger-checkbox" type="checkbox" name="attended_names" value="{{ student.name }}" id="{{ student.name }}"
+                                    {% if student.name in form.instance.students_present %}
+                                        checked
+                                    {% endif %}
+                                >
                                 <label class="form-check-label" for="{{ student.name }}">
                                     {{ student.name }}
                                 </label>
@@ -80,15 +95,15 @@
                         {% endfor %}
 
                         <hr>
-                        {% if class_number == '12' %}
+                        {% if form.instance.academic_year == '12' %}
                             <h5 class="text-center">اسماء تانية ابتدائي</h5>
-                        {% elif class_number == '34' %}
+                        {% elif form.instance.academic_year == '34' %}
                             <h5 class="text-center">اسماء رابعة ابتدائي</h5>
-                        {% elif class_number == '56' %}
+                        {% elif form.instance.academic_year == '56' %}
                             <h5 class="text-center">اسماء سادسة ابتدائي</h5>
                         {% endif %}
 
-                        {% for student in students_2 %}
+                        <!-- {% for student in students_2 %}
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="attended_names" value="{{ student.name }}" id="{{ student.name }}">
                                 <label class="form-check-label" for="{{ student.name }}">
@@ -96,14 +111,27 @@
                                 </label>
                                 <hr>
                             </div>
+                        {% endfor %} -->
+                        {% for student in students_2 %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="attended_names" value="{{ student.name }}" id="{{ student.name }}"
+                                    {% if student.name in form.instance.students_present %}
+                                        checked
+                                    {% endif %}
+                                >
+                                <label class="form-check-label" for="{{ student.name }}">
+                                    {{ student.name }}
+                                </label>
+                                <hr>
+                            </div>
                         {% endfor %}
-                        
+
                     
                     </div>
                     <div class="container border border-3 d-flex flex-row flex-wrap" dir="rtl" style="width: 100%;">
                         <div class="m-2">
                             <label for="id_day_notes" class="form-label">ملاحظات اليوم</label>
-                            <textarea class="form-control" rows="3" style="width: 100%;" id="id_day_notes" name="day_notes" placeholder="ملاحظات اليوم"></textarea>
+                            <textarea class="form-control" rows="3" style="width: 100%;" id="id_day_notes" name="day_notes" placeholder="ملاحظات اليوم"> {{form.instance.day_notes}} </textarea>
                         </div>
                     </div>
                     

@@ -7,24 +7,12 @@ from .forms import StudentForm
 from .forms import AttendanceRecordForm
 from django.contrib import messages
 from django.forms.utils import ErrorList
-# from django.db.models import Q
+from django.db.models import Q, F   
 from datetime import date
-
 # those ones for user_username authentication
 from functools import wraps
 from django.shortcuts import HttpResponse
-# def specific_username_required(view_func):
-#     @wraps(view_func)
-#     def _wrapped_view(request, *args, **kwargs):
-#         # Get the authenticated user
-#         user = request.user
 
-#         # Check if the user's username is the desired one
-#         if user.username == 'khadem':
-#             return view_func(request, *args, **kwargs)
-#         else:
-#             return HttpResponse("You are not authorized to access this view.")
-#     return login_required(_wrapped_view)
 def specific_username_required(view_func):
     @wraps(view_func)
     def _wrapped_view(request, *args, **kwargs):
@@ -126,7 +114,7 @@ def add_student(request):
 def birthdays (request):
     current_month = date.today().month
     target_months = [current_month, (current_month + 1) % 12, (current_month + 2) % 12]
-    matching_students = Student.objects.filter(Q(date_of_birth__month__in=target_months))
+    matching_students = Student.objects.filter(Q(date_of_birth__month__in=target_months) & Q(academic_year__range=(-2,2)))
     return render(request, "project2/birthdays.html", {'matching_students':matching_students})
 
 
@@ -137,9 +125,11 @@ def birthdays (request):
 
 @specific_username_required
 def attendance_general(request):
-    dates = AttendanceRecord.objects.order_by('date').values_list('date', flat=True).distinct()
-    students = Student.objects.all()
-    attendance_records = AttendanceRecord.objects.all()
+    dates = AttendanceRecord.objects.filter(academic_year='12').order_by('date').distinct()
+    students = Student.objects.filter(academic_year__range=(-2, 2))
+    # students = Student.objects.all()
+
+    # attendance_records = AttendanceRecord.objects.all()
 
     attendance_data = []
     for student in students:
@@ -150,20 +140,21 @@ def attendance_general(request):
             'attendance_status': []
         }
         for date in dates:
-            student_names_attended = attendance_records.filter(date=date).values_list('students_present', flat=True)
-            if any(student.name in names.split(',') for names in student_names_attended):
-                counter += 1
-                attendance_status="attended"
-                if counter == 4:
-                    attendance_status="4_weeks_bonus"
+            if dates:
+                student_names_attended = dates.filter(date=date.date).values_list('students_present', flat=True)
+                if any(student.name in names.split(',') for names in student_names_attended):
+                    counter += 1
+                    attendance_status="attended"
+                    if counter == 4:
+                        attendance_status="4_weeks_bonus"
+                        counter = 0
+                    # print( date.date, " -- ",  student.name, "*****************",attendance_status,"******************", counter)
+                else:
                     counter = 0
-                print( date, " -- ",  student.name, "*****************",attendance_status,"******************", counter)
-            else:
-                counter = 0
-                attendance_status=""
-                print("*****************did not attend******************")
-            # attendance_status = 'attended' if attendance_records.filter(students_present=student, date=date).exists() else ''
-            student_data['attendance_status'].append(attendance_status)
+                    attendance_status=""
+                    # print("*****************did not attend******************")
+                # attendance_status = 'attended' if attendance_records.filter(students_present=student, date=date.date).exists() else ''
+                student_data['attendance_status'].append(attendance_status)
         attendance_data.append(student_data)
     
     # print("here ------------------ here ")
@@ -177,22 +168,28 @@ def attendance_general(request):
         'attendance_data': attendance_data,
 
     }
-
+    print(dates[1])
     return render(request, 'project2/attendance_general.html', context)
-
-
 
 @specific_username_required
 def attendance_specific(request, class_number):
     if request.method == 'POST':
         
         attendance_data = AttendanceRecordForm(request.POST)
+        attendance_data.instance.academic_year = class_number
+        academic_year = request.POST.getlist('academic_year') 
+        print("------------ everything faf -------------", academic_year)
+
+
         if attendance_data.is_valid():
-            print("------------ request post -------------", request.POST)
+            # print("------------ request post -------------", request.POST)
             attended_names = request.POST.getlist('attended_names')  # Assuming this is how you are getting the selected student names
-            print("------------ nothing faff -------------", attended_names)
+            # print("------------ nothing faff -------------", attended_names)
             students_present = ','.join(attended_names)  # Convert the list of names to a comma-separated string
-            print("------------ everything faf -------------", students_present)
+            # print("------------ everything faf -------------", students_present)
+            academic_year = request.POST.getlist('academic_year')  # Convert the list of names to a comma-separated string
+            # print("------------ everything faf -------------", academic_year)
+            
 
             attendance_record = attendance_data.save(commit=False)  # Create the attendance record instance but don't save it yet
             attendance_record.students_present = students_present  # Assign the students_present value
@@ -206,7 +203,7 @@ def attendance_specific(request, class_number):
     students_2 = None
     class_number = str(class_number)
     if class_number == "12":
-        students_1= Student.objects.filter(academic_year=1)
+        students_1= Student.objects.filter(academic_year__range=(-2,1))
         students_2= Student.objects.filter(academic_year=2)
     elif class_number == "34":
         students_1= Student.objects.filter(academic_year=3)
@@ -224,13 +221,60 @@ def attendance_specific(request, class_number):
     return render(request, "project2/attendance_specific.html", context)
 
 
-# @specific_username_required
-# def attendance_34 (request):
+@specific_username_required
+def attendance_edit_specific(request, form_id):
+    attendance_record = AttendanceRecord.objects.get(id=form_id)
+    if request.method == 'POST':
+        form = AttendanceRecordForm(request.POST, instance=attendance_record)
+        attended_names = request.POST.getlist('attended_names')  # Assuming this is how you are getting the selected student names
+        students_present = ','.join(attended_names)  # Convert the list of names to a comma-separated string
+        attendance_record.students_present = students_present 
+        attendance_record.day_title =  request.POST.get('day_title')
+        attendance_record.day_topic =  request.POST.get('day_topic')
+        attendance_record.day_verse =  request.POST.get('day_verse')
+        attendance_record.day_notes =  request.POST.get('day_notes')
+        
+
+        attendance_record.save()
+        return redirect('project2:attendance_general')
+
+    else:
+        form = AttendanceRecordForm(instance=attendance_record)
     
-#     return render(request, "project2/attendance_34.html", {})
+    students_1 = None
+    students_2 = None
+    class_number = str(attendance_record.academic_year)
+    if class_number == "12":
+        students_1= Student.objects.filter(academic_year__range=(-2,1))
+        students_2= Student.objects.filter(academic_year=2)
+    elif class_number == "34":
+        students_1= Student.objects.filter(academic_year=3)
+        students_2= Student.objects.filter(academic_year=4)
+    elif class_number == "56":
+        students_1= Student.objects.filter(academic_year=5)
+        students_2= Student.objects.filter(academic_year=6)
+
+    context = {
+                'students_1': students_1, 
+                'students_2': students_2, 
+                'form': form, 
+               }
+    
+
+    return render(request, "project2/attendance_edit_specific.html", context)
 
 
-# @specific_username_required
-# def attendance_56 (request):
+
+
+
+@specific_username_required
+def eftekad(request):
+    students = Student.objects.filter(
+    Q(father_alive=False) | Q(mother_alive=False) | ~Q(health_problems__exact=" ") & ~Q(health_problems__exact="") & ~Q(health_problems__exact="لا يوجد")
+)
+    print(len(students))
+    context = {
+                'students': students,
+                }
     
-#     return render(request, "project2/attendance_56.html", {})
+    return render(request, "project2/eftekad.html", context)

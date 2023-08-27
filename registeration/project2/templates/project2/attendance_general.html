@@ -9,19 +9,19 @@
 
 {% block content %}
     <div class="container d-flex flex-row justify-content-center">
-        <h4 class="text-center bg-secondary text-white col-3 col-sm-4 col-md-4 px-4 pb-2 fs-5 mb-1 rounded-pill"> كشف ابتدائي بنين </h4>
+        <h4 class="text-center bg-secondary text-white d-inline-block px-4 pb-2 fs-6 rounded-pill text-truncate"> كشف ابتدائي بنين </h4>
     </div>
 
-    <div class="container-fluid d-flex align-items-center justify-content-center m-1">
-        <a href="{% url 'project2:attendance_specific' class_number='12' %}" class=" col-lg-2 col-md-2 col-sm-3 btn btn-warning rounded-circle py-3 m-3 fw-bolder"> غياب اولي <br> وتانية النهاردة </a>
-        <a href="{% url 'project2:attendance_specific' class_number='34' %}" class=" col-lg-2 col-md-2 col-sm-3 btn btn-warning text-dark rounded-circle py-3 m-3 fw-bolder"> غياب تالتة <br> ورابعة ابتدائي </a>
-        <a href="{% url 'project2:attendance_specific' class_number='56' %}" class=" col-lg-2 col-md-2 col-sm-3 btn btn-warning rounded-circle py-3 m-3 fw-bolder"> غياب خامسة <br> وسادسة ابتدائي </a>
+    <div class="container-fluid d-flex align-items-center justify-content-center mb-1 ">
+        <a href="{% url 'project2:attendance_specific' class_number='12' %}" class=" col-lg-2 col-md-2 col-sm-3 btn btn-warning rounded-circle mx-1 py-3  fw-bolder">  اولي <br> وتانية  </a>
+        <a href="{% url 'project2:attendance_specific' class_number='34' %}" class=" col-lg-2 col-md-2 col-sm-3 btn btn-warning text-dark rounded-circle mx-1 py-3  fw-bolder">  تالتة <br> ورابعة  </a>
+        <a href="{% url 'project2:attendance_specific' class_number='56' %}" class=" col-lg-2 col-md-2 col-sm-3 btn btn-warning rounded-circle mx-1 py-3  fw-bolder">  خامسة <br> وسادسة  </a>
     </div>
 
-    <div class=" container d-flex flex-row justify-content-around text-center" dir="rtl">
+    <div class=" container d-flex flex-row justify-content-around text-center my-1" dir="rtl">
         <div class="input-group input-group-sm col-3">
-            <input class="form-control" type="search" id="search" placeholder="live search " aria-label="Search">
-            <a href="{% url 'project2:info' %}" class="btn btn-warning btn-sm"><i class="bi bi-arrow-clockwise"></i> </a>
+            <input class="form-control " type="search" id="search" placeholder="live search " aria-label="Search">
+            <a href="{% url 'project2:attendance_general' %}" class="btn btn-warning btn-sm"><i class="bi bi-arrow-clockwise"></i> </a>
         </div>
     </div>
     <div class="container border border-3 vh-100 vw-100 overflow-auto">
@@ -29,20 +29,50 @@
             <div class="col-md-12">
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped text-center overflow-auto " dir="rtl" id="table_id">
-                        <thead class="bg-warning">
-                            <tr>
-                                <th> اسم الطالب </th> <!-- Empty cell for student names -->
-                                <th> السنة الدراسية</th> <!-- Empty cell for student names -->
+                        <thead class="bg-warning text-center">
+                            <tr class=" text-center" style=" font-size: 10px; " >
+                                <th>  </th> <!-- Empty cell for student names -->
+                                <th > تعديل الغياب  </th> <!-- Empty cell for student names -->
                                 {% for date in dates %}
-                                    <th class="text-white">{{ date|date:"d M" }}</th>
+                                    <th class=" text-center"> <a href= "{% url 'project2:attendance_edit_specific' date.id %}" class="btn btn-outline-warning bg-white text-dark"  style="font-size: 10px;"> edit </a> </th>
+                                    <!-- {% url 'project2:attendance_edit_specific' date.id %} -->
+                                {% endfor %}
+                            </tr>
+                            <tr style=" font-size: 10px; " >
+                                <th>  </th> <!-- Empty cell for student names -->
+                                <th> عنوان اليوم </th> <!-- Empty cell for student names -->
+                                {% for date in dates %}
+                                    <th class="text-white">{{ date.day_title }}</th>
+                                {% endfor %}
+                            </tr>
+                            <tr style=" font-size: 10px; " >
+                                <th>  </th> <!-- Empty cell for student names -->
+                                <th> اية اليوم</th> <!-- Empty cell for student names -->
+                                {% for date in dates %}
+                                    <th class="text-white">{{ date.day_verse }}</th>
+                                {% endfor %}
+                            </tr>
+                            <tr style=" font-size: 10px; " >
+                                <th>  </th> <!-- Empty cell for student names -->
+                                <th> موضوع اليوم</th> <!-- Empty cell for student names -->
+                                {% for date in dates %}
+                                    <th class="text-white">{{ date.day_topic }}</th>
+                                {% endfor %}
+                            </tr>
+                            
+                            <tr style=" font-size: 10px; " >
+                                <th style="position: sticky; right: 0; z-index: 1;"> الاسم </th> <!-- Empty cell for student names -->
+                                <th style="width: 1px; font-size: 10px;  "> السنة</th> <!-- Empty cell for student names -->
+                                {% for date in dates %}
+                                    <th class="text-white">{{ date.date|date:"d M" }}</th>
                                 {% endfor %}
                             </tr>
                         </thead>
                         <tbody>
                             {% for student_data in attendance_data %}
-                                <tr>
-                                    <th class="bg-warning text-white">{{ student_data.name }}</th>
-                                    <th>{{ student_data.academic_year }}</th>
+                                <tr style="font-size: 10px;">
+                                    <td class="bg-warning text-white sticky-column" style="position: sticky; right: 0; z-index: 1;">{{ student_data.name }}</td>
+                                    <td class="" >{{ student_data.academic_year }}</td>
                                     <!-- {% for attendance_status in student_data.attendance_status %}
                                         <td>{% if attendance_status %}حضر{% endif %}</td>
                                     {% endfor %} -->
@@ -80,7 +110,8 @@
             bInfo: true,
             bSort: true,
             // dom: '<"d-flex justify-content-between"lf>tip',
-            dom: '<"d-flex justify-content-between"lf>tipB',
+            // dom: '<"d-flex justify-content-between"lf>tipB',
+            dom: '<"d-flex justify-content-between"l>t<B>',
             // scrollX: true,  // Enable horizontal scrolling
 
             buttons:[
@@ -139,5 +170,7 @@
         $('.dataTables_wrapper .dataTables_filter')
             .addClass('sticky-top bg-light p-2 justify-content-center');
     });
+
+    
 </script>
 {% endblock %}

@@ -112,16 +112,27 @@ class AttendanceRecord(models.Model):
         ('عشية', 'عشية'),
         ('عيد', 'عيد'),
     )
+    ACADMIC_YEAR_CHOICES = (
+        ('12', '12'),
+        ('34', '34'),
+        ('56', '56'),
+    )
 
-    date = models.DateField(default=datetime.today, unique=True)
+    date = models.DateField(default=datetime.today)
     day_title = models.CharField(max_length=50, choices=DAY_TITLE_CHOICES, default="مدارس احد")
     day_topic = models.CharField(max_length=255, default="", blank=True)
     day_verse = models.CharField(max_length=255, default="", blank=True)
-    academic_year=models.CharField(max_length=30, default="", blank=True)
+    academic_year=models.CharField(max_length=30, choices=ACADMIC_YEAR_CHOICES, default="", blank=True)
     students_present = models.TextField(blank=True)
+    day_notes = models.TextField(blank=True)
 
     class Meta:
-        unique_together = ['date']
+        constraints = [
+            models.UniqueConstraint(fields=['date', 'academic_year'], name='unique_date_academic_year')
+        ]
+
+    # class Meta:
+    #     unique_together = ['date']
 
     def mark_attendance(self, student):
         if not self.students_present:
@@ -134,5 +145,16 @@ class AttendanceRecord(models.Model):
             return self.students_present.split(",")
         return []
 
+    def get_date(self):
+        return self.initial.get('date', None)
+
     def __str__(self):
         return f"Attendance for {self.day_title} on {self.date}"
+    
+    def save_edits(self, students_present, day_title, day_topic, day_verse, day_notes):
+        self.students_present = students_present
+        self.day_title = day_title
+        self.day_topic = day_topic
+        self.day_verse = day_verse
+        self.day_notes = day_notes
+        self.save()

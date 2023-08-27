@@ -1,0 +1,48 @@
+{% extends 'project2/base.html' %}
+
+{% block title %} افتقاد ابتدائي {% endblock %}
+
+{% block content %} 
+
+    <div class="container d-flex flex-wrap border justify-content-end border-3 border-dark my-2" style="width: 100%; height: 50%">
+        <div class="d-flex flex-column">
+            <div class="ms-3 border border-3 border-warning text-start text-truncate px-4 py-2" style="font-size: 15px;"> الصلاة اليومية </div>
+            <div class="table-responsive" style="font-size: 10px;">
+                <table class="table table-bordered table-striped text-center overflow-auto " dir="rtl" id="table_id">
+                    <thead class="bg-warning text-center">
+                        <tr>
+                            <th> الاسم </th>
+                            <th> السنة </th>
+                            <th> المشاكل الصحية </th>
+                            <th> الاب </th>
+                            <th> الام </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                            <tr>
+                                <td> {{student.name}} </td>
+                                <td> {{student.academic_year}} </td>
+                                <td> {{student.health_problems}} </td>
+                                {% if student.father_alive %}
+                                    <td class="father-name-col bg-warning">{{ student.father_name }}</td>
+                                {% else %}
+                                    <td class="father-name-col bg-danger">{{ student.father_name }}</td>    
+                                {% endif %}
+
+                                {% if student.mother_alive %}
+                                    <td class="mother-name-col bg-warning">{{ student.mother_name }}</td>
+                                {% else %}
+                                    <td class="mother-name-col bg-danger">{{ student.mother_name }}</td>    
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>                        
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
+{% endblock %}
+

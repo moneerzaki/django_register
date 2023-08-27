@@ -7,23 +7,29 @@
 {% endblock %}
 
 {% block content %}
-    <h4 class="text-center bg-secondary text-white container col-2 p-2 fs-6 mt-2 rounded-pill ">جدول بيانات الاطفال </h4>
+    <div class="container d-flex flex-row justify-content-center">
+        <h6 class="text-center bg-secondary text-white px-4 py-2 rounded-pill text-truncate border border-warning " style="font-size: 14px;">
+            جدول بيانات الاطفال
+        </h6>
+    </div>
+    
+        
     <div class="container d-flex flex-row justify-content-between">
         <div class="custom-fs-sm" dir="rtl">
-            <div class="custom-fs-sm"> اضافة طفل? <a class=" btn btn-warning rounded-1" href="{% url 'project2:add_student' %}"> هنا </a></div>
+            <div class="custom-fs-sm" >  <a class=" btn btn-warning rounded-1" href="{% url 'project2:add_student' %} " style="font-size: 10px;"> اضافة طفل? </a></div>
         </div>
-        <div class="text-center" >
+        <div class="text-center col-sm-1" >
             <div class="input-group input-group-sm">
-                <input class="form-control" type="search" id="search" placeholder="live search " aria-label="Search">
+                <input class="form-control " type="search" id="search" placeholder="live search " aria-label="Search">
                 <a href="{% url 'project2:info' %}" class="btn btn-warning btn-sm"><i class="bi bi-arrow-clockwise"></i> </a>
             </div>
         </div>
     </div>
 
-    <div class="container border border-3 w-100 overflow-auto shadow text-center" style="height: 70vh;">
+    <div class="container border border-3 w-100 overflow-auto shadow text-center" style="height: 100vh;">
         
         <table class=" table table-striped overflow-auto table-hover table-bordered align-middle table-responsive" id="table_id" style="direction: rtl; max-width: 100%; font-size: small;">
-            <thead class="table-dark text-center align-middle text-warning position-sticky top-0">
+            <thead class="table-dark text-center align-middle text-warning position-sticky top-0" style="font-size: 12px;">
                 <tr class="border border-2 border-white position-sticky top-0">
                     {% if user.is_authenticated and user.username == "khadem" %}
                         <th class="edit-header col-5" > edit col</th>
@@ -66,11 +72,11 @@
                     {% endif %}
                 </tr>
             </thead>
-            <tbody class="text-center">
+            <tbody class="text-center" style="font-size: 10px;">
                 {% for student in students %}
                     <tr class="border border-1 border-dark">
                         {% if user.is_authenticated and user.username == "khadem" %}
-                            <td class="edit-col btn btn-warning fs-6 col-5"> <a href=" {% url 'project2:edit_student' student_id=student.id %}"> edit </a> </td>
+                            <td class="edit-col btn btn-warning col-5"> <a href=" {% url 'project2:edit_student' student_id=student.id %}"> edit </a> </td>
                             <!-- <td class="order-col">{{ forloop.index }}</td> -->
                             <td class="bg-warning text-black position-sticky start-0">{{ student.name }}</td>
                             <td>{{ student.gender }}</td>
@@ -152,7 +158,7 @@
             bInfo: true,
             bSort: true,
             // dom: '<"d-flex justify-content-between"lf>tip',
-            dom: '<"d-flex justify-content-between"lf>tipB',
+            dom: '<"d-flex justify-content-between"l>tipB',
             scrollX: true,  // Enable horizontal scrolling
 
             buttons:[
