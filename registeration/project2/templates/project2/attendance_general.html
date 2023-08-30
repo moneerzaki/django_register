@@ -32,6 +32,7 @@
                         <thead class="bg-warning text-center">
                             <tr class=" text-center" style=" font-size: 10px; " >
                                 <th>  </th> <!-- Empty cell for student names -->
+                                <th>  </th> <!-- Empty cell for student names -->
                                 <th > تعديل الغياب  </th> <!-- Empty cell for student names -->
                                 {% for date in dates %}
                                     <th class=" text-center"> <a href= "{% url 'project2:attendance_edit_specific' date.id %}" class="btn btn-outline-warning bg-white text-dark"  style="font-size: 10px;"> edit </a> </th>
@@ -40,6 +41,7 @@
                             </tr>
                             <tr style=" font-size: 10px; " >
                                 <th>  </th> <!-- Empty cell for student names -->
+                                <th>  </th> <!-- Empty cell for student names -->
                                 <th> عنوان اليوم </th> <!-- Empty cell for student names -->
                                 {% for date in dates %}
                                     <th class="text-white">{{ date.day_title }}</th>
@@ -47,12 +49,14 @@
                             </tr>
                             <tr style=" font-size: 10px; " >
                                 <th>  </th> <!-- Empty cell for student names -->
+                                <th>  </th> <!-- Empty cell for student names -->
                                 <th> اية اليوم</th> <!-- Empty cell for student names -->
                                 {% for date in dates %}
                                     <th class="text-white">{{ date.day_verse }}</th>
                                 {% endfor %}
                             </tr>
                             <tr style=" font-size: 10px; " >
+                                <th>  </th> <!-- Empty cell for student names -->
                                 <th>  </th> <!-- Empty cell for student names -->
                                 <th> موضوع اليوم</th> <!-- Empty cell for student names -->
                                 {% for date in dates %}
@@ -63,6 +67,7 @@
                             <tr style=" font-size: 10px; " >
                                 <th style="position: sticky; right: 0; z-index: 1;"> الاسم </th> <!-- Empty cell for student names -->
                                 <th style="width: 1px; font-size: 10px;  "> السنة</th> <!-- Empty cell for student names -->
+                                <th style="width: 1px; font-size: 10px;  "> نسبة الحضور </th> <!-- Empty cell for student names -->
                                 {% for date in dates %}
                                     <th class="text-white">{{ date.date|date:"d M" }}</th>
                                 {% endfor %}
@@ -73,6 +78,7 @@
                                 <tr style="font-size: 10px;">
                                     <td class="bg-warning text-white sticky-column" style="position: sticky; right: 0; z-index: 1;">{{ student_data.name }}</td>
                                     <td class="" >{{ student_data.academic_year }}</td>
+                                    <td class="" >{{ student_data.attendance_rate }} %</td>
                                     <!-- {% for attendance_status in student_data.attendance_status %}
                                         <td>{% if attendance_status %}حضر{% endif %}</td>
                                     {% endfor %} -->

@@ -12,6 +12,10 @@ from datetime import date
 # those ones for user_username authentication
 from functools import wraps
 from django.shortcuts import HttpResponse
+from .utils import *
+
+
+# general functions 
 
 def specific_username_required(view_func):
     @wraps(view_func)
@@ -58,6 +62,7 @@ def edit_student(request, student_id):
 
 @specific_username_required
 def ebtda2y(request):
+    calculate_absences()
     return render(request, "project2/ebtda2y.html", {})
 
 
@@ -115,6 +120,10 @@ def birthdays (request):
     current_month = date.today().month
     target_months = [current_month, (current_month + 1) % 12, (current_month + 2) % 12]
     matching_students = Student.objects.filter(Q(date_of_birth__month__in=target_months) & Q(academic_year__range=(-2,2)))
+
+    # Convert date_of_birth to sortable format
+    for student in matching_students:
+        student.date_of_birth_sortable = student.date_of_birth.strftime("%m-%d")
     return render(request, "project2/birthdays.html", {'matching_students':matching_students})
 
 
@@ -137,6 +146,8 @@ def attendance_general(request):
         student_data = {
             'name': student.name,
             'academic_year': student.academic_year,
+            'absences': student.absences,
+            'attendance_rate': student.attendance_rate,
             'attendance_status': []
         }
         for date in dates:
@@ -163,6 +174,8 @@ def attendance_general(request):
     # print(students[2])
     # print(attendance_records.filter(students_present=student, date=dates.first()).exists())
     # print(attendance_data[2])
+    
+
     context = {
         'dates': dates,
         'attendance_data': attendance_data,
@@ -194,6 +207,7 @@ def attendance_specific(request, class_number):
             attendance_record = attendance_data.save(commit=False)  # Create the attendance record instance but don't save it yet
             attendance_record.students_present = students_present  # Assign the students_present value
             attendance_record.save()  # Now save the attendance record with the updated students_present value
+            calculate_absences()
             return redirect('project2:attendance_general')
         else: 
             messages.error(request, f"form is invalid: date might exist once before.")
@@ -236,6 +250,7 @@ def attendance_edit_specific(request, form_id):
         
 
         attendance_record.save()
+        calculate_absences()
         return redirect('project2:attendance_general')
 
     else:
@@ -266,15 +281,33 @@ def attendance_edit_specific(request, form_id):
 
 
 
-
 @specific_username_required
 def eftekad(request):
-    students = Student.objects.filter(
+
+    # eftekad elsalah
+    students_distress = Student.objects.filter(
     Q(father_alive=False) | Q(mother_alive=False) | ~Q(health_problems__exact=" ") & ~Q(health_problems__exact="") & ~Q(health_problems__exact="لا يوجد")
-)
-    print(len(students))
+    )
+    
+    
+    attendance_dates = AttendanceRecord.objects.filter(academic_year='12').order_by(F('date').desc()).distinct()
+    last_attendance_date = attendance_dates.first()
+    if last_attendance_date:
+        present_students_names = last_attendance_date.students_present.split(",")
+        students_attendance = Student.objects.filter(~Q(name__in=present_students_names) & Q(academic_year__range=(-2,2)))
+    else:
+        students_attendance = Student.objects.none()
+
+    students_random = Choose_random_students(3)
+    # students_queryset = Student.objects.all()  # Use .all() or other filtering methods to get a queryset
+    # students_random = students_queryset[0:5]
+    # students_random = 
+
     context = {
-                'students': students,
+                'students_distress': students_distress,
+                'students_random': students_random,
+                'students_attendance': students_attendance,
+
                 }
     
     return render(request, "project2/eftekad.html", context)

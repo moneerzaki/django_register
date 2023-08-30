@@ -31,10 +31,10 @@
     <title> {% block title %} {% endblock %} </title>
 </head>
 <body>
-    <header class="bg-secondary d-flex flex-row justify-content-around p-3">
+    <header class="bg-secondary d-flex flex-row justify-content-around position-sticky top-0 py-1 " style="z-index: 999;" >
         
-        <p class="text-white fw-bolder col-5 fs-5"> <a class="text-decoration-none text-white p-3 border-bottom border-bottom-3 " href="{% url 'project2:ebtda2y' %}"> ابتدائي بنين </a>  </p>
-        <a class="btn btn-outline-warning px-lg-5 text-truncate py-2" href="{% url 'logout' %}"> logout </a>
+        <p class="text-white fw-bolder fs-6"> <a class="text-decoration-none text-white p-1 border-bottom border-bottom-3 " href="{% url 'project2:ebtda2y' %}"> ابتدائي بنين </a>  </p>
+        <a class="btn btn-outline-warning px-3 text-truncate py-1 align-self-center" style="font-size: 15px;" href="{% url 'logout' %}"> logout </a>
 
 
         {% block header %} {% endblock %}
@@ -48,6 +48,7 @@
 
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
     <!-- datatables JS -->
     <!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script> -->

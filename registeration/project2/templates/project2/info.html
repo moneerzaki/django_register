@@ -32,7 +32,7 @@
             <thead class="table-dark text-center align-middle text-warning position-sticky top-0" style="font-size: 12px;">
                 <tr class="border border-2 border-white position-sticky top-0">
                     {% if user.is_authenticated and user.username == "khadem" %}
-                        <th class="edit-header col-5" > edit col</th>
+                        <th class="edit-header col-5" > الملف الشخصي</th>
                         <!-- <th class="order-header"> الرقم </th> -->
                         <th class=" bg-warning text-white mx-5 position-sticky z-index-2" style="width: 30%; "> الاسم </th>
                         <th> النوع </th>
@@ -51,7 +51,8 @@
                         <th> العنوان </th>
                         <th> كيف الي الكنيسة </th>
                         <th> مسجل بقائمة الكنيسة </th>
-                        <th> عدد الغيابات </th>
+                        <th>  عدد الغيابات من اخر مرة </th>
+                        <th>  نسبة الحضور </th>
                         <th> الأخوة </th> 
                         
                         <th> اسم الأب </th>
@@ -74,9 +75,10 @@
             </thead>
             <tbody class="text-center" style="font-size: 10px;">
                 {% for student in students %}
-                    <tr class="border border-1 border-dark">
+                    <tr class="border border-1 border-dark ">
                         {% if user.is_authenticated and user.username == "khadem" %}
-                            <td class="edit-col btn btn-warning col-5"> <a href=" {% url 'project2:edit_student' student_id=student.id %}"> edit </a> </td>
+                            <td class="btn btn-warning px-2 py-1 text-truncate align-self-center"> <a class="align-self-center text-truncate " href=" {% url 'project2:edit_student' student_id=student.id %}"> <i class="bi bi-person-circle" style="font-size: 25px;"></i></a> </td>
+                            <!-- <td class="btn btn-warning  align-self-center">  <i class="bi bi-person-circle" style="font-size: 25px;"></i></td> -->
                             <!-- <td class="order-col">{{ forloop.index }}</td> -->
                             <td class="bg-warning text-black position-sticky start-0">{{ student.name }}</td>
                             <td>{{ student.gender }}</td>
@@ -96,6 +98,7 @@
                             <td>{{ student.how_to_church }}</td>
                             <td>{{ student.registered_in_church_list }}</td>
                             <td>{{ student.absences }}</td>
+                            <td>{{ student.attendance_rate }} %</td>
                             <td>
                                 {% for brother in student.brothers.all %}
                                     {{ brother.name }}<br>

@@ -47,9 +47,12 @@ class Student(models.Model):
     home_town = models.CharField(max_length=255,default="منوف", blank=True)
     home_region = models.CharField(max_length=255,blank=True)
     home_address = models.CharField(max_length=255,blank=True)
+
     how_to_church = models.CharField(max_length=255,blank=True)
     registered_in_church_list = models.BooleanField(default=False)
     absences = models.IntegerField(default=0, blank=True, null=True)
+    attendance_rate = models.FloatField(default=0.0, blank=True, null=True)
+
     brothers = models.ManyToManyField('self', symmetrical=True, blank=True, default=list)
     notes = models.TextField(blank=True, default='')
 
@@ -91,9 +94,9 @@ class Student(models.Model):
             self.father_name = " ".join(student_name_parts[1:])
         if not self.mother_name:
             self.mother_name = f"ام {self.name}"
-            print("mother name is empty")
-        else: 
-            print("mother name is written ")
+            # print("mother name is empty")
+        # else: 
+            # print("mother name is written ")
 
         super().save(*args, **kwargs)  # Save the initial instance
 
@@ -124,6 +127,7 @@ class AttendanceRecord(models.Model):
     day_verse = models.CharField(max_length=255, default="", blank=True)
     academic_year=models.CharField(max_length=30, choices=ACADMIC_YEAR_CHOICES, default="", blank=True)
     students_present = models.TextField(blank=True)
+    students_eftekad_notyet = models.TextField(blank=True)
     day_notes = models.TextField(blank=True)
 
     class Meta:

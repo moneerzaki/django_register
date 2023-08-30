@@ -3,10 +3,11 @@
 {% block title %} افتقاد ابتدائي {% endblock %}
 
 {% block content %} 
-
-    <div class="container d-flex flex-wrap border justify-content-end border-3 border-dark my-2" style="width: 100%; height: 50%">
+    <!-- صلاة من اجل الضيقة ... مشاكل صحية او اسرية -->
+    <!-- <div class="container d-flex flex-wrap border justify-content-end border-1 border-dark my-4 shadow" style="width: 100%; max-height: 50%"> -->
+    <div class="container border border-1 border-dark w-100 overflow-auto shadow text-center my-3" style="height: 50vh;">
         <div class="d-flex flex-column">
-            <div class="ms-3 border border-3 border-warning text-start text-truncate px-4 py-2" style="font-size: 15px;"> الصلاة اليومية </div>
+            <div class="btn btn-outline-warning my-1 text-start text-dark fw-bolder text-truncate px-4 py-2" style="font-size: 15px;"> صلاة من اجل الضيقة</div>
             <div class="table-responsive" style="font-size: 10px;">
                 <table class="table table-bordered table-striped text-center overflow-auto " dir="rtl" id="table_id">
                     <thead class="bg-warning text-center">
@@ -19,9 +20,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for student in students %}
+                        {% for student in students_distress %}
                             <tr>
-                                <td> {{student.name}} </td>
+                                <td class="position-sticky start-0"> {{student.name}} </td>
+                                <td> {{student.academic_year}} </td>
+                                <td> {{student.health_problems}} </td>
+                                {% if student.father_alive %}
+                                    <td class="father-name-col bg-warning">{{ student.father_name }}</td>
+                                {% else %}
+                                    <td class="father-name-col bg-danger">{{ student.father_name }}</td>    
+                                {% endif %}
+
+                                {% if student.mother_alive %}
+                                    <td class="mother-name-col bg-warning">{{ student.mother_name }}</td>
+                                {% else %}
+                                    <td class="mother-name-col bg-danger">{{ student.mother_name }}</td>    
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        <tr><td>اختيارات عشوائية للصلاة</td></tr>
+                        {% for student in students_random %}
+                            <tr>
+                                <td class="position-sticky start-0"> {{student.name}} </td>
                                 <td> {{student.academic_year}} </td>
                                 <td> {{student.health_problems}} </td>
                                 {% if student.father_alive %}
@@ -43,6 +63,140 @@
         </div>
     </div>
 
-    
+    <!--  صلاة من اجل البعد عن الكنيسة وافتقاد الغائبين -->
+    <!-- <div class="container d-flex flex-wrap border justify-content-end border-1 border-dark my-2 shadow" style="width: 100%; max-height: 50%"> -->
+    <div class="container border border-1 border-dark w-100 my-3 overflow-auto shadow text-center" style="height: 50vh;">
+        <div class="d-flex flex-column">
+            <!-- <div class="ms-3 text-start text-truncate px-4 py-2" style="font-size: 15px;"> من اجل الغياب  </div> -->
+            <div class="btn btn-outline-warning my-1 text-start text-dark fw-bolder text-truncate px-4 py-2" style="font-size: 15px;"> من اجل الغياب </div>
+
+            <div class="table-responsive" style="font-size: 10px;">
+                <table class="table table-bordered table-striped text-center overflow-auto " dir="rtl" id="table_id_2">
+                    <thead class="bg-warning text-center">
+                        <tr>
+                            <th> الاسم </th>
+                            <th> السنة </th>
+                            <th> تليفون الطفل </th>
+                            
+                            <th> عدد مرات الغياب </th>
+                            <th> نسبةالحضور </th>
+                            
+                            <th>  المنطقة </th>
+                            <th>  عنوان البيت </th>
+                            <th>  كيف الي الكنيسة </th>
+
+                            <th> الاب </th>
+                            <th> تليفون الاب </th>
+                            <th> الام </th>
+                            <th> تليفون الام </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students_attendance %}
+                            <tr>
+                                <td class=" bg-warning position-sticky start-0"> {{student.name}} </td>
+                                <td> {{student.academic_year}} </td>
+                                <td> {{student.phone_number}} </td>
+
+                                <td style="background-color: gray; color:white"> {{student.absences}} </td>
+                                <td style="background-color: gray; color:white"> {{student.attendance_rate}} %</td>
+
+                                <td> {{student.home_region}} </td>
+                                <td> {{student.home_address}} </td>
+                                <td> {{student.how_to_church}} </td>
+                                {% if student.father_alive %}
+                                    <td class="father-name-col bg-warning">{{ student.father_name }}</td>
+                                {% else %}
+                                    <td class="father-name-col bg-danger">{{ student.father_name }}</td>    
+                                {% endif %}
+                                <td> {{student.father_phone_number1}} </td>
+
+                                {% if student.mother_alive %}
+                                    <td class="mother-name-col bg-warning">{{ student.mother_name }}</td>
+                                {% else %}
+                                    <td class="mother-name-col bg-danger">{{ student.mother_name }}</td>    
+                                {% endif %}
+                                <td> {{student.mother_phone_number1}} </td>
+                            </tr>
+                        {% endfor %}
+
+                        
+                    </tbody>                        
+                </table>
+            </div>
+        </div> 
+    </div>
+
+
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable with options
+            var dataTable = $("#table_id_2").DataTable({
+                paging: false,
+                // pageLength: 10,
+                lengthChange: true,
+                autoWidth: false,
+                searching: true,
+                bInfo: true,
+                bSort: true,
+                // dom: '<"d-flex justify-content-between"lf>tip',
+                dom: '<"d-flex justify-content-between"l>tipB',
+                scrollX: true,  // Enable horizontal scrolling
+
+                buttons:[
+                    {
+                        extend: 'copy',
+                        text: '<i class="fas fa-clone"></i>',
+                        className: 'btn btn-secondary mx-3',
+                        titleAttr: 'Copy', 
+                        // selected columns
+                        exportOptions: {columns: [2,5] },
+
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fas fa-print"></i>',
+                        className: 'btn btn-secondary mx-3',
+                        titleAttr: 'Print', 
+                        // selected columns
+                        exportOptions: {columns: [2,4] },
+                        // tableHeaders: {alignment: center},
+                        // customize: function(doc) {doc.style.tableHeaders.alignment = 'center';}
+                    },
+                    {
+                        extend: 'pdf',
+                        text: '<i class="fas fa-pdf"></i>',
+                        className: 'btn btn-secondary mx-3',
+                        titleAttr: 'PDF', 
+                        // selected columns
+                        exportOptions: {columns: [2,4] },
+                        // tableHeaders: {alignment: center},
+                        // customize: function(doc) {doc.style.tableHeaders.alignment = 'center';}
+                    }
+                ]
+            });
+
+            // var dataTable = $("#table_id").DataTable();
+            $('#search').keyup(function() {
+                dataTable.search($(this).val()).draw();
+            })
+
+            // Scroll the table all the way to the right
+            var dataTableScrollBody = $(".dataTables_scrollBody");
+            dataTableScrollBody.scrollLeft(dataTableScrollBody.width() * 10);
+
+            // Initialize DataTable for row selection
+            const table = new DataTable('#table_id');
+            // Handle row selection on click
+            table.on('click', 'tbody tr', function(e) {
+                e.currentTarget.classList.toggle('selected');
+            });
+
+            // Handle button click to display selected rows
+            document.querySelector('#button').addEventListener('click', function() {
+                alert(table.rows('.selected').data().length + ' row(s) selected');
+            });
+        });
+    </script>
 {% endblock %}
 
