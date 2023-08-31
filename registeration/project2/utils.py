@@ -39,14 +39,18 @@ def calculate_absences():
     print("((((((((((((((((()))))))))))))))))", total_attendances)
     for student in students:
         count=0.0
-        for attendance_date in attendance_dates:
-            present_students_names = attendance_date.students_present.split(",")
-            if student.name in present_students_names:
-                count += 1
-            if student.name == "شنودة ميشيل" and student.name not in present_students_names:
-                print("+++++++++ date: ", attendance_date.date, " day_title", attendance_date.day_title )
-        # attendance_rate = round((count/total_attendances) * 100, 1)
-        student.attendance_rate = round((count/total_attendances) * 100, 1)
+        if total_attendances: 
+            for attendance_date in attendance_dates:
+                present_students_names = attendance_date.students_present.split(",")
+                if student.name in present_students_names:
+                    count += 1
+                if student.name == "شنودة ميشيل" and student.name not in present_students_names:
+                    print("+++++++++ date: ", attendance_date.date, " day_title", attendance_date.day_title )
+            # attendance_rate = round((count/total_attendances) * 100, 1)
+        if total_attendances ==0: 
+            student.attendance_rate = 0
+        else: 
+            student.attendance_rate = round((count/total_attendances) * 100, 1)
 
         student.save()
 

@@ -197,7 +197,7 @@ def attendance_general(request):
         'attendance_data': attendance_data,
 
     }
-    print(dates[1])
+    # print(dates[1])
     return render(request, 'project2/attendance_general.html', context)
 
 @specific_username_required

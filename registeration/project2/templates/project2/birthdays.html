@@ -129,6 +129,29 @@
             // scrollX: true,  // Enable horizontal scrolling
 
             buttons:[
+                // {
+                //     extend: 'colvis', // ColVis button
+                //     text: '<i class="fa fa-columns"></i>',
+                //     className: 'btn btn-secondary mx-3',
+                //     titleAttr: 'Columns Visibility',
+                // },
+                {
+                    extend: 'excel',
+                    text: '<i class="fas fa-file-excel"></i>',
+                    className: 'btn btn-secondary mx-3',
+                    titleAttr: 'Excel', 
+                    // selected columns
+                    exportOptions: {
+                        columns: ':not(th:contains("الملف الشخصي"))', // Exclude the column with "Header 1"
+                        format: {
+                            body: function(data, row, column, node) {
+                                // Apply RTL direction to Excel cells
+                                return data; // Modify this if needed
+                            }
+                        }
+                    },
+
+                },
                 {
                     extend: 'copy',
                     text: '<i class="fas fa-clone"></i>',
@@ -144,17 +167,39 @@
                     className: 'btn btn-secondary mx-3',
                     titleAttr: 'Print', 
                     // selected columns
-                    exportOptions: {columns: [2,4] },
+                    exportOptions: {
+                        columns: ':not(th:contains("الملف الشخصي"))', // Exclude the column with "Header 1"
+                        format: {
+                            body: function(data, row, column, node) {
+                                // Apply RTL direction to Excel cells
+                                return data; // Modify this if needed
+                            }
+                        }
+                    },
                     // tableHeaders: {alignment: center},
                     // customize: function(doc) {doc.style.tableHeaders.alignment = 'center';}
                 },
                 {
                     extend: 'pdf',
-                    text: '<i class="fas fa-pdf"></i>',
+                    text: '<i class="fas fa-file-pdf"></i>',
                     className: 'btn btn-secondary mx-3',
                     titleAttr: 'PDF', 
+                    customize: function(doc) {
+                        doc.defaultStyle.font = 'Arial, sans-serif'; // Set a suitable font
+                        doc.styles.tableBodyEven.alignment = 'right'; // Set alignment for RTL text
+                        doc.styles.tableBodyOdd.alignment = 'right'; // Set alignment for RTL text
+                    },
                     // selected columns
-                    exportOptions: {columns: [2,4] },
+                    exportOptions: {
+                        // columns: ':not(th:contains("الملف الشخصي"))', // Exclude the column with "Header 1"
+                        columns: [1,5], // Exclude the column with "Header 1"
+                        format: {
+                            body: function(data, row, column, node) {
+                                // Apply RTL direction to Excel cells
+                                return data; // Modify this if needed
+                            }
+                        }
+                    },
                     // tableHeaders: {alignment: center},
                     // customize: function(doc) {doc.style.tableHeaders.alignment = 'center';}
                 }

@@ -180,7 +180,11 @@ class AttendanceRecord(models.Model):
             all_students_number = len(Student.objects.filter(academic_year__range=(3,4)))
         elif self.academic_year=="56":
             all_students_number = len(Student.objects.filter(academic_year__range=(5,6)))
-        self.class_attendance_rate = round((students_attended_number / all_students_number)*100,1)
+            
+        if all_students_number==0: 
+            self.class_attendance = 0
+        else:
+            self.class_attendance_rate = round((students_attended_number / all_students_number)*100,1)
 
         super().save(*args, **kwargs)  # Save the initial instance
         
