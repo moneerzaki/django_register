@@ -10,7 +10,7 @@
             <div class="btn btn-outline-warning my-1 text-start text-dark fw-bolder text-truncate px-4 py-2" style="font-size: 15px;"> صلاة من اجل الضيقة</div>
             <div class="table-responsive" style="font-size: 10px;">
                 <table class="table table-bordered table-striped text-center overflow-auto " dir="rtl" id="table_id">
-                    <thead class="bg-warning text-center">
+                    <thead class="bg-dark text-center text-warning">
                         <tr>
                             <th> الاسم </th>
                             <th> السنة </th>
@@ -65,7 +65,7 @@
 
     <!--  صلاة من اجل البعد عن الكنيسة وافتقاد الغائبين -->
     <!-- <div class="container d-flex flex-wrap border justify-content-end border-1 border-dark my-2 shadow" style="width: 100%; max-height: 50%"> -->
-    <div class="container border border-1 border-dark w-100 my-3 overflow-auto shadow text-center" style="height: 50vh;">
+    <div class="container border border-1 border-dark w-100 my-3 overflow-auto shadow text-center" style="height: 70vh;">
         <div class="d-flex flex-column">
             <!-- <div class="ms-3 text-start text-truncate px-4 py-2" style="font-size: 15px;"> من اجل الغياب  </div> -->
             <div class="btn btn-outline-warning my-1 text-start text-dark fw-bolder text-truncate px-4 py-2" style="font-size: 15px;"> من اجل الغياب </div>
@@ -126,8 +126,9 @@
             </div>
         </div> 
     </div>
+{% endblock %}
 
-
+{% block scripts %}
     <script>
         $(document).ready(function() {
             // Initialize DataTable with options
@@ -198,5 +199,6 @@
             });
         });
     </script>
+    
 {% endblock %}
 

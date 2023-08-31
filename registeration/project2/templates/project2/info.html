@@ -32,7 +32,7 @@
             <thead class="table-dark text-center align-middle text-warning position-sticky top-0" style="font-size: 12px;">
                 <tr class="border border-2 border-white position-sticky top-0">
                     {% if user.is_authenticated and user.username == "khadem" %}
-                        <th class="edit-header col-5" > الملف الشخصي</th>
+                        <th class="edit-header col-5" >الملف الشخصي</th>
                         <!-- <th class="order-header"> الرقم </th> -->
                         <th class=" bg-warning text-white mx-5 position-sticky z-index-2" style="width: 30%; "> الاسم </th>
                         <th> النوع </th>
@@ -149,6 +149,8 @@
 
 
 {% block scripts %}
+
+
 <script>
     $(document).ready(function() {
         // Initialize DataTable with options
@@ -163,8 +165,32 @@
             // dom: '<"d-flex justify-content-between"lf>tip',
             dom: '<"d-flex justify-content-between"l>tipB',
             scrollX: true,  // Enable horizontal scrolling
+            responsive: true,
 
             buttons:[
+                // {
+                //     extend: 'colvis', // ColVis button
+                //     text: '<i class="fa fa-columns"></i>',
+                //     className: 'btn btn-secondary mx-3',
+                //     titleAttr: 'Columns Visibility',
+                // },
+                {
+                    extend: 'excel',
+                    text: '<i class="fas fa-file-excel"></i>',
+                    className: 'btn btn-secondary mx-3',
+                    titleAttr: 'Excel', 
+                    // selected columns
+                    exportOptions: {
+                        columns: ':not(th:contains("الملف الشخصي"))', // Exclude the column with "Header 1"
+                        format: {
+                            body: function(data, row, column, node) {
+                                // Apply RTL direction to Excel cells
+                                return data; // Modify this if needed
+                            }
+                        }
+                    },
+
+                },
                 {
                     extend: 'copy',
                     text: '<i class="fas fa-clone"></i>',
@@ -180,17 +206,39 @@
                     className: 'btn btn-secondary mx-3',
                     titleAttr: 'Print', 
                     // selected columns
-                    exportOptions: {columns: [2,4] },
+                    exportOptions: {
+                        columns: ':not(th:contains("الملف الشخصي"))', // Exclude the column with "Header 1"
+                        format: {
+                            body: function(data, row, column, node) {
+                                // Apply RTL direction to Excel cells
+                                return data; // Modify this if needed
+                            }
+                        }
+                    },
                     // tableHeaders: {alignment: center},
                     // customize: function(doc) {doc.style.tableHeaders.alignment = 'center';}
                 },
                 {
                     extend: 'pdf',
-                    text: '<i class="fas fa-pdf"></i>',
+                    text: '<i class="fas fa-file-pdf"></i>',
                     className: 'btn btn-secondary mx-3',
                     titleAttr: 'PDF', 
+                    customize: function(doc) {
+                        doc.defaultStyle.font = 'Arial, sans-serif'; // Set a suitable font
+                        doc.styles.tableBodyEven.alignment = 'right'; // Set alignment for RTL text
+                        doc.styles.tableBodyOdd.alignment = 'right'; // Set alignment for RTL text
+                    },
                     // selected columns
-                    exportOptions: {columns: [2,4] },
+                    exportOptions: {
+                        // columns: ':not(th:contains("الملف الشخصي"))', // Exclude the column with "Header 1"
+                        columns: [1,5], // Exclude the column with "Header 1"
+                        format: {
+                            body: function(data, row, column, node) {
+                                // Apply RTL direction to Excel cells
+                                return data; // Modify this if needed
+                            }
+                        }
+                    },
                     // tableHeaders: {alignment: center},
                     // customize: function(doc) {doc.style.tableHeaders.alignment = 'center';}
                 }
@@ -219,5 +267,14 @@
         });
     });
 </script>
+<style>
+    .buttons-container {
+        position: sticky;
+        bottom: 0;
+        background-color: white; /* Adjust as needed */
+        padding: 10px; /* Adjust as needed */
+        z-index: 1000; /* Ensure buttons are on top of the table */
+    }
+</style>
 
 {% endblock %}

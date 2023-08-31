@@ -132,9 +132,19 @@ def birthdays (request):
 
 #     return render(request, "project2/attendance_general.html", {})
 
+
 @specific_username_required
 def attendance_general(request):
-    dates = AttendanceRecord.objects.filter(academic_year='12').order_by('date').distinct()
+
+    objects = AttendanceRecord.objects.all()
+    for object in objects: 
+        object.save()
+
+    calculate_absences()
+
+    dates = AttendanceRecord.objects.filter(academic_year='12').order_by('date')
+    # print ("view. attendance_general number of dates: " , len(dates))
+
     students = Student.objects.filter(academic_year__range=(-2, 2))
     # students = Student.objects.all()
 
@@ -152,18 +162,24 @@ def attendance_general(request):
         }
         for date in dates:
             if dates:
-                student_names_attended = dates.filter(date=date.date).values_list('students_present', flat=True)
-                if any(student.name in names.split(',') for names in student_names_attended):
-                    counter += 1
+                student_names_attended = date.students_present.split(",")
+
+                if student.name in student_names_attended:
                     attendance_status="attended"
-                    if counter == 4:
-                        attendance_status="4_weeks_bonus"
-                        counter = 0
-                    # print( date.date, " -- ",  student.name, "*****************",attendance_status,"******************", counter)
-                else:
-                    counter = 0
+                    if date.day_title == "مدارس احد":
+                        counter += 1
+                        if counter == 4:
+                            attendance_status="4_weeks_bonus"
+                            counter = 0
+                        # print( date.date, " -- ",  student.name, "*****************",attendance_status,"******************", counter)
+                    # else:
+                    #     counter = 0
+                else: 
                     attendance_status=""
-                    # print("*****************did not attend******************")
+                    if date.day_title == "مدارس احد":
+                        counter=0
+                    
+                        # print("*****************did not attend******************")
                 # attendance_status = 'attended' if attendance_records.filter(students_present=student, date=date.date).exists() else ''
                 student_data['attendance_status'].append(attendance_status)
         attendance_data.append(student_data)

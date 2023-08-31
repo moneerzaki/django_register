@@ -125,35 +125,37 @@ class AttendanceRecord(models.Model):
     day_title = models.CharField(max_length=50, choices=DAY_TITLE_CHOICES, default="مدارس احد")
     day_topic = models.CharField(max_length=255, default="", blank=True)
     day_verse = models.CharField(max_length=255, default="", blank=True)
-    academic_year=models.CharField(max_length=30, choices=ACADMIC_YEAR_CHOICES, default="", blank=True)
+
+    academic_year = models.CharField(max_length=30, choices=ACADMIC_YEAR_CHOICES, default="", blank=True)
+    class_attendance_rate = models.FloatField(default=0.0, blank=True)
+
     students_present = models.TextField(blank=True)
     students_eftekad_notyet = models.TextField(blank=True)
+
     day_notes = models.TextField(blank=True)
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['date', 'academic_year'], name='unique_date_academic_year')
+            models.UniqueConstraint(fields=['date', 'academic_year', 'day_title'], name='unique_date_academic_year_day_title')
         ]
+        
 
-    # class Meta:
-    #     unique_together = ['date']
+    # def mark_attendance(self, student):
+    #     if not self.students_present:
+    #         self.students_present = student.name
+    #     else:
+    #         self.students_present += f",{student.name}"
 
-    def mark_attendance(self, student):
-        if not self.students_present:
-            self.students_present = student.name
-        else:
-            self.students_present += f",{student.name}"
+    # def get_attendance_list(self):
+    #     if self.students_present:
+    #         return self.students_present.split(",")
+    #     return []
 
-    def get_attendance_list(self):
-        if self.students_present:
-            return self.students_present.split(",")
-        return []
-
-    def get_date(self):
-        return self.initial.get('date', None)
+    # def get_date(self):
+    #     return self.initial.get('date', None)
 
     def __str__(self):
-        return f"Attendance for {self.day_title} on {self.date}"
+        return f"Attendance for {self.academic_year}, {self.day_title} on {self.date}"
     
     def save_edits(self, students_present, day_title, day_topic, day_verse, day_notes):
         self.students_present = students_present
@@ -161,4 +163,24 @@ class AttendanceRecord(models.Model):
         self.day_topic = day_topic
         self.day_verse = day_verse
         self.day_notes = day_notes
+        
+        # students_attended_number = len(self.students_present.split(","))
+        # all_students_number = len(Student.objects.filter(academic_year__range=(-2,2)))
+        # self.academic_year_attendance_rate = students_attended_number / all_students_number
+
         self.save()
+
+    def save(self, *args, **kwargs):
+
+        # calculate the attendance rate for each class
+        students_attended_number = len(self.students_present.split(","))
+        if self.academic_year== '12':
+            all_students_number = len(Student.objects.filter(academic_year__range=(-2,2)))
+        elif self.academic_year=="34":
+            all_students_number = len(Student.objects.filter(academic_year__range=(3,4)))
+        elif self.academic_year=="56":
+            all_students_number = len(Student.objects.filter(academic_year__range=(5,6)))
+        self.class_attendance_rate = round((students_attended_number / all_students_number)*100,1)
+
+        super().save(*args, **kwargs)  # Save the initial instance
+        

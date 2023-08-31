@@ -75,6 +75,14 @@
             
         </div>
         <div class="m-2 px-4 py-2 col-lg-5"> طريقة قدومه للكنيسة  <input type="text" value="{{student.how_to_church}}" placeholder=" "></div>
+        <div class="m-2 px-4 py-2 col-lg-5 d-flex flex-row">
+            <p> مرات الغياب منذ اخر مرة: </p>
+            <div class="border border-1 border-dark px-4 text-truncate text-secondary" style="background-color: aliceblue;"> {{student.absences}} </div>
+        </div>
+        <div class="m-2 px-4 py-2 col-lg-5 d-flex flex-row">
+            <p> نسبة الحضور: </p>
+            <div class="border border-1 border-dark px-4 text-truncate text-secondary" style="background-color: aliceblue;"> %{{student.attendance_rate}} </div>
+        </div>
     </div>
 
     <div class="container vw-100 d-flex flex-row justify-content-start border border-2 flex-wrap " dir="rtl">
@@ -90,7 +98,7 @@
             <input type="text" value="{{student.mother_name}}" placeholder=" ">
         </div>
         <div class="m-2 px-4 py-2 col-lg-5"> 1 رقم تليفون الام  <input type="text" value="{{student.mother_phone_number1}}" placeholder=" "> </div>
-        <div class="m-2 px-4 py-2 col-lg-5">رقم تليفون الام 2  <input type="text" value="{{student.mother_phone_number2}}" placeholder=" "> </div>
+        <div class="m-2 px-4 py-2 col-lg-5"> رقم تليفون الام 2  <input type="text" value="{{student.mother_phone_number2}}" placeholder=" "> </div>
         <div class="m-2 px-4 py-2 col-lg-5"> فيسبوك الام  <input type="text" value="{{student.mother_facebook_profile}}" placeholder=" "> </div>
         <div class="m-2 px-4 py-2 col-lg-5"> وظيفة الام   <input type="text" value="{{student.mother_job}}" placeholder=" "> </div>
         <div class="m-2 px-4 py-2 col-lg-5"> علي قيد الحياة  <input type="checkbox" name="mother_alive" {% if student.mother_alive %}checked{% endif %}> </div>
