@@ -1,8 +1,10 @@
 import pandas as pd
-from project2.models import Student
-import math
+# from project2.models import Student
+# from project2.models import Servant
 
+# import math
 
+# students data 
 header_to_field_mapping = {
     'الاسم': 'name',
     'النوع': 'gender',
@@ -130,3 +132,20 @@ def validate_datatypes(excel_data):
         # print(type(row['brothers']))
 
     return excel_data
+
+
+# servants data 
+servants_header_to_field_mapping = {
+    'الاسم': 'name',
+    'النوع': 'gender',
+    'رقم التليفون': 'phone_number',
+    'رقم التليفون 2': 'phone_number2',
+    'البلد': 'home_town',
+    'المنطقة': 'home_region',
+    'العنوان': 'home_address',
+    'حساب الفيسبوك' : 'facebook_profile',
+    'تاريخ الميلاد' : 'date_of_birth',
+    'رقم الفصل': 'class_number',
+    'عدد الغيابات': 'absences_number',
+    'نسبة الحضور': 'attendance_rate',
+}
