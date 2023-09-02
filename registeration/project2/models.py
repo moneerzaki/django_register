@@ -4,12 +4,41 @@ from datetime import date
 from datetime import datetime
 
 
-
-class Student(models.Model):
-    GENDER_CHOICES = (
+CLASS_CHOICES = (
+    ("12", "12"),
+    ("34", "34"),
+    ("56", "56"),
+)
+GENDER_CHOICES = (
         ('male', 'Male'),
         ('female', 'Female'),
     )
+
+# servants class
+class Servant(models.Model):
+
+    name = models.CharField(max_length=100, default="", blank=True)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default="male")
+    phone_number = models.CharField(max_length=11, blank=True)
+    phone_number2 = models.CharField(max_length=11, blank=True)
+    
+    home_town = models.CharField(max_length=255,default="منوف", blank=True)
+    home_region = models.CharField(max_length=255,blank=True)
+    home_address = models.CharField(max_length=255,blank=True)
+
+    facebook_profile = models.CharField(max_length=255,blank=True)
+    date_of_birth = models.DateField(default = date(2000, 1, 1), blank=True)
+
+    class_number = models.CharField( max_length=10, choices=CLASS_CHOICES, blank=True)
+    absences = models.IntegerField(default=0, blank=True, null=True)
+    attendance_rate = models.FloatField(default=0.0, blank=True, null=True)
+    def __str__(self):
+        return self.name
+
+
+# students class 
+class Student(models.Model):
+    
     CONFESSION_FATHER_CHOICES = (
         ('لا يوجد', 'لا يوجد'),
         ('ابونا تاردس', 'ابونا تادرس'),
@@ -17,7 +46,6 @@ class Student(models.Model):
         ('ابونا تيمثاوس', 'ابونا تيمثاوس'),
         ('اب كاهن اخر', 'اب كاهن اخر'),
     )
-
     ACADEMIC_YEAR_CHOICES = (
         (-2, '-2'),
         (-1, '-1'),
@@ -28,7 +56,17 @@ class Student(models.Model):
         (5, '5'),
         (6, '6'),
     )
-    
+    SCHOOL_CHOICES = (
+        # ("",""),
+        ("الاسقفية","الاسقفية"),
+        ("الاقباط الابتدائية","الاقباط الابتدائية"),
+        ("التحرير","التحرير"),
+        ("هابي سكول","هابي سكول"),
+        ("برهيم التجريبية","برهيم التجريبية"),
+        ("سدود التجريبية","سدود التجريبية"),
+        ("الشيخ زويل","الشيخ زويل"),
+        ("اخري","اخري"),
+    )
 
     #required fields
     name = models.CharField(max_length=100)
@@ -40,7 +78,7 @@ class Student(models.Model):
     phone_number2 = models.CharField(max_length=11, blank=True)
     facebook_profile = models.CharField(max_length=255,blank=True)
     date_of_birth = models.DateField(default = date(2000, 1, 1), blank=True)
-    school_name = models.CharField(max_length=255,blank=True)
+    school_name = models.CharField(max_length=255, choices=SCHOOL_CHOICES,blank=True)
     confession_father = models.CharField(max_length=15, choices=CONFESSION_FATHER_CHOICES, default="لا يوجد", blank=True)
     hobbies = models.CharField(max_length=255,blank=True)
     health_problems = models.CharField(max_length=255,default="لا يوجد", blank=True)
@@ -52,6 +90,7 @@ class Student(models.Model):
     registered_in_church_list = models.BooleanField(default=False)
     absences = models.IntegerField(default=0, blank=True, null=True)
     attendance_rate = models.FloatField(default=0.0, blank=True, null=True)
+    responsible_servant = models.CharField(max_length=100, blank=True)
 
     brothers = models.ManyToManyField('self', symmetrical=True, blank=True, default=list)
     notes = models.TextField(blank=True, default='')
@@ -104,6 +143,7 @@ class Student(models.Model):
             
 
 class AttendanceRecord(models.Model):
+    
     DAY_TITLE_CHOICES = (
         ('مدارس احد', 'مدارس احد'),
         ('يوم روحي', 'يوم روحي'),
@@ -114,11 +154,7 @@ class AttendanceRecord(models.Model):
         ('تسبحة', 'تسبحة'),
         ('عشية', 'عشية'),
         ('عيد', 'عيد'),
-    )
-    ACADMIC_YEAR_CHOICES = (
-        ('12', '12'),
-        ('34', '34'),
-        ('56', '56'),
+        ('اخري', 'اخري')
     )
 
     date = models.DateField(default=datetime.today)
@@ -126,11 +162,14 @@ class AttendanceRecord(models.Model):
     day_topic = models.CharField(max_length=255, default="", blank=True)
     day_verse = models.CharField(max_length=255, default="", blank=True)
 
-    academic_year = models.CharField(max_length=30, choices=ACADMIC_YEAR_CHOICES, default="", blank=True)
+    academic_year = models.CharField(max_length=30, choices=CLASS_CHOICES, default="", blank=True)
     class_attendance_rate = models.FloatField(default=0.0, blank=True)
 
     students_present = models.TextField(blank=True)
     students_eftekad_notyet = models.TextField(blank=True)
+
+    servants_attended =models.TextField(blank=True)
+    servants_eftekad_notyet = models.TextField(blank=True)
 
     day_notes = models.TextField(blank=True)
 
