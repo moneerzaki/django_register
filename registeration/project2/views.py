@@ -118,8 +118,12 @@ def add_student(request):
             print("form is invalid for somereason")
     else:
         form = StudentForm()
-        
-    return render(request, 'project2/add_student.html', {'form': form})
+    servants = Servant.objects.all()
+    context = {
+        "form": form,
+        "servants": servants,
+    }
+    return render(request, 'project2/add_student.html', context)
 
 
 @specific_username_required

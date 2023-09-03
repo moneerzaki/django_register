@@ -57,6 +57,16 @@
         </div>
         <div class="container vw-100 d-flex flex-row justify-content-start border border-2 flex-wrap " dir="rtl">
             <div class="m-2 px-4 py-2 col-lg-5"> اسم اب الاعتراف {{form.confession_father}} </div>
+            <div class="m-2 px-4 py-2 col-lg-5"> اسم الخادم المسئول عنه 
+                <select name="responsible_servant">
+                    <option value="" {% if not student.responsible_servant %}selected{% endif %}></option> <!-- Blank option -->
+                    {% for servant in servants %}
+                        <option value="{{ servant.id }}" {% if student.responsible_servant == servant.id %}selected{% endif %}>
+                            {{ servant.name }}
+                        </option>
+                    {% endfor %}
+                </select>    
+            </div>
             <div class="m-2 px-4 py-2 col-lg-5"> طريقة قدومه للكنيسة {{form.how_to_church}} </div>
         </div>
 
