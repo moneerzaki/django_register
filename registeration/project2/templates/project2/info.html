@@ -32,6 +32,8 @@
             <thead class="table-dark text-center align-middle text-warning position-sticky top-0" style="font-size: 12px;">
                 <tr class="border border-2 border-white position-sticky top-0">
                     {% if user.is_authenticated and user.username == "khadem" %}
+
+                        <th class="edit-header" > الخادم </th>
                         <th class="edit-header col-5" >الملف الشخصي</th>
                         <!-- <th class="order-header"> الرقم </th> -->
                         <th class=" bg-warning text-white mx-5 position-sticky z-index-2" style="width: 30%; "> الاسم </th>
@@ -77,7 +79,8 @@
                 {% for student in students %}
                     <tr class="border border-1 border-dark ">
                         {% if user.is_authenticated and user.username == "khadem" %}
-                            <td class="btn btn-warning px-2 py-1 text-truncate align-self-center"> <a class="align-self-center text-truncate " href=" {% url 'project2:edit_student' student_id=student.id %}"> <i class="bi bi-person-circle" style="font-size: 25px;"></i></a> </td>
+                            <td> {{student.responsible_servant}}</td>
+                            <td> <a class="align-self-center text-dark btn btn-outline-warning px-2 py-1 text-truncate align-self-center" href=" {% url 'project2:edit_student' student_id=student.id %}"> <i class="bi bi-person-circle" style="font-size: 25px;"></i></a> </td>
                             <!-- <td class="btn btn-warning  align-self-center">  <i class="bi bi-person-circle" style="font-size: 25px;"></i></td> -->
                             <!-- <td class="order-col">{{ forloop.index }}</td> -->
                             <td class="bg-warning text-black position-sticky start-0">{{ student.name }}</td>

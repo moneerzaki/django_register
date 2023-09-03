@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.forms import modelformset_factory
+from .models import Servant
 from .models import Student
 from .models import AttendanceRecord
 from django.contrib.auth.decorators import login_required
@@ -57,7 +58,13 @@ def edit_student(request, student_id):
         else: 
             print(studentForm.errors)  # Print form errors to the console for debugging
             messages.error(request, "something went wrong")
-    return render(request, "project2/edit_student.html", {"student": student, "studentForm": studentForm})
+    servants = Servant.objects.all()
+    context = {
+        "student": student,
+        "studentForm": studentForm,
+        "servants": servants,
+    }
+    return render(request, "project2/edit_student.html", context)
 
 
 @specific_username_required

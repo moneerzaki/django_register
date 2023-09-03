@@ -12,7 +12,7 @@
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}
-        <li {% if message.tags %} class="{{ message.tags }}"{% endif %} > {{ message }} </li>
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }} </li>
     {% endfor %}
 </ul>
 {% endif %}
@@ -74,6 +74,18 @@
             </select>
             
         </div>
+        <div class="m-2 px-4 py-2 col-lg-5"> 
+            الخادم المسئول عنه 
+            <select name="responsible_servant">
+                <option value="" {% if not student.responsible_servant %}selected{% endif %}></option> <!-- Blank option -->
+                {% for servant in servants %}
+                    <option value="{{ servant.id }}" {% if student.responsible_servant == servant.id %}selected{% endif %}>
+                        {{ servant.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <!-- <input type="text" value="{{student.responsible_servant}}" placeholder=" "> -->
+        </div> 
         <div class="m-2 px-4 py-2 col-lg-5"> طريقة قدومه للكنيسة  <input type="text" value="{{student.how_to_church}}" placeholder=" "></div>
         <div class="m-2 px-4 py-2 col-lg-5 d-flex flex-row">
             <p> مرات الغياب منذ اخر مرة: </p>
