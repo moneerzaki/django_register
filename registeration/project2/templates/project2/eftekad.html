@@ -74,6 +74,7 @@
                 <table class="table table-bordered table-striped text-center overflow-auto " dir="rtl" id="table_id_2">
                     <thead class="bg-warning text-center">
                         <tr>
+                            <th> المسئول </th>
                             <th> الاسم </th>
                             <th> السنة </th>
                             <th> تليفون الطفل </th>
@@ -81,9 +82,9 @@
                             <th> عدد مرات الغياب </th>
                             <th> نسبةالحضور </th>
                             
-                            <th>  المنطقة </th>
-                            <th>  عنوان البيت </th>
-                            <th>  كيف الي الكنيسة </th>
+                            <th> المنطقة </th>
+                            <th> عنوان البيت </th>
+                            <th> كيف الي الكنيسة </th>
 
                             <th> الاب </th>
                             <th> تليفون الاب </th>
@@ -94,6 +95,7 @@
                     <tbody>
                         {% for student in students_attendance %}
                             <tr>
+                                <td class=" bg-warning position-sticky start-0"> {{student.responsible_servant}} </td>
                                 <td class=" bg-warning position-sticky start-0"> {{student.name}} </td>
                                 <td> {{student.academic_year}} </td>
                                 <td> {{student.phone_number}} </td>

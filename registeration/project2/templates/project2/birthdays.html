@@ -20,6 +20,7 @@
                     {% if user.is_authenticated and user.username == "khadem" %}
                         <!-- <th class="edit-header col-5" style="width: 10px;"> edit col</th> -->
                         <!-- <th class="order-header"> الرقم </th> -->
+                        <th> السئول </th>
                         <th class=" bg-warning text-white mx-5 position-sticky start-0 z-index-2"> الاسم </th>
                         <!-- <th> النوع </th> -->
                         <th> السنة الدراسية </th>
@@ -64,6 +65,7 @@
                         {% if user.is_authenticated and user.username == "khadem" %}
                             <!-- <td class="edit-col btn btn-warning fs-6 col-5"> <a href="{% url 'project2:edit_student' student_id=student.id %}">edit</a> </td> -->
                             <!-- <td class="order-col">{{ forloop.index }}</td> -->
+                            <td>{{ student.responsible_servant }}</td>
                             <td class="bg-warning text-black position-sticky start-0">{{ student.name }}</td>
                             <!-- <td>{{ student.gender }}</td> -->
                             <td>{{ student.academic_year }}</td>
