@@ -7,5 +7,5 @@ https://moneerzaki.pythonanywhere.com/
 ## To clone the repo and work on it perfectly you need to download the following: 
 <br> Git bash  (for easy push, pull, editing and controlling versions. ) 
 <br> VS code   (to facilitate the coding part.) 
-<br> python     
+<br> python   (diable downloading for all users to skip the administrator's access part)
 
