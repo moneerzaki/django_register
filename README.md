@@ -5,7 +5,7 @@ A private project where you can't view or edit any details on the website withou
 https://moneerzaki.pythonanywhere.com/
 
 ## To clone the repo and work on it perfectly you need to download the following: 
-Git bash  (for easy push, pull, editing and controlling versions. )
-VS code   (to facilitate the coding part.)
-python     
+<br> Git bash  (for easy push, pull, editing and controlling versions. ) 
+<br> VS code   (to facilitate the coding part.) 
+<br> python     
 
