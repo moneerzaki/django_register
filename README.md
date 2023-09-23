@@ -8,4 +8,5 @@ https://moneerzaki.pythonanywhere.com/
 <br> Git bash  (for easy push, pull, editing and controlling versions. ) 
 <br> VS code   (to facilitate the coding part.) 
 <br> python   (diable downloading for all users to skip the administrator's access part)
+<br> 1. pip install django 
 
